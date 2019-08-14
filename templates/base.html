@@ -1,0 +1,34 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="author" content="Justin Tadlock">
+        <meta name="description" content="An application that provides a list of items within a variety of categories as well as providing the user with registration and authentication system through Google Sign-in. Registered users will have the ability to post, edit and delete their own items.">
+        
+        <title>
+        {% if title %}
+            {{ title }}
+        {% else %}
+            Page Title Placeholder
+        {% endif %}
+        </title>
+
+        <link rel=stylesheet type=text/css href="{{ url_for('static', filename='styles.css') }}">
+
+        <script src="{{ url_for('static', filename='scripts.js') }}"></script>
+    </head>
+    <body>
+        <!-- Navigation Block -->
+        {% block navigation %}{% endblock %}
+
+        <!-- Content Block -->
+        {% block content %}{% endblock %}
+
+        <!-- Footer -->
+        {% block footer %}
+        <footer>
+            &copy; - Justin Tadlock
+        </footer>
+        {% endblock%}
+    </body>
+</html>
