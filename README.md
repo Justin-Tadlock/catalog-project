@@ -34,7 +34,7 @@ For more information on the base setup, visit the [Udacity VM Setup](https://git
 5. You are done with this step
 
 ##### You will also require a "secret_key.txt" file to be made and have some text inside it.
-1. In your google-auth-playground app directory create a "secret_key.txt" file.
+1. In your catalog-project app directory create a "secret_key.txt" file.
 2. Open the file and type some text
 3. Save the file and close the file.
 4. You are done with this step
