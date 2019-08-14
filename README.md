@@ -10,8 +10,34 @@ These instructions will get you a copy of the project up and running on your loc
 To run the VM, you must have the following:
 * [VirtualBox](https://www.virtualbox.org/wiki/Downloads)
 * [Vagrant](https://www.vagrantup.com/)
+* Python3 is installed on the Vagrant VM
 
 For more information on the base setup, visit the [Udacity VM Setup](https://github.com/udacity/fullstack-nanodegree-vm)
+
+##### A project created in your Google Dev console. 
+0. The Dev Console can be found [here](https://console.developers.google.com)
+1. Create a project
+2. Go to your credentials. The root link is [here](https://console.developers.google.com/apis/credentials)
+3. Click "Create credentials", then "OAuth client ID"
+4. Select "Web Application"
+5. Give the credentials a name (such as "catalog-project-creds")
+6. Under "Authorized JavaScript origins", add "https://localhost:5000" and hit Enter
+7. Under "Authorized redirect URIs", add "https://localhost:5000/oauthcallback" and hit Enter
+8. Click the "**Create**" button
+9. You are done with this step, move on to "Running the VM" section.
+
+##### You will need to download the credentials json file from your Google Dev Console
+1. Go to your Google Dev Console Credentials section [here](https://console.developers.google.com/apis/credentials)
+2. Go to the credentials you created in the Pre-Req section, on the far right click the **DOWN** arrow to download the credentials in json format
+3. Go to the location the file was downloaded, rename the file "client_secrets.json"
+4. Copy-paste the "client_secrets.json" file into your **catalog-project** app directory.
+5. You are done with this step
+
+##### You will also require a "secret_key.txt" file to be made and have some text inside it.
+1. In your google-auth-playground app directory create a "secret_key.txt" file.
+2. Open the file and type some text
+3. Save the file and close the file.
+4. You are done with this step
 
 
 ### Running the VM
@@ -28,19 +54,28 @@ vagrant init
 vagrant up
 vagrant ssh
 ```
-
-### Setting up the data
-
-Once you establish a connection to your VM, run the following commands:
+7. Once the vagrant VM is running, navigate to the **auth-playground** app directory
+``` 
+cd /vagrant/catalog-project 
 ```
-cd /vagrant/catalog-project
+
+### In order for the application to work, you must install the appropriate modules on your vagrant VM:
+```sudo pip3 install --upgrade -r requirements.txt```
+
+### Running the server
+
+##### Set up the data
+
+Run the following commands to set up the data used to initialize the database values:
+```
 python3 ./database_setup.py
 python3 ./init_catalog_items.py
 ```
+**NOTE:** You only have to do this once when you first run the app or if you delete the **catalog_data.db** file.
 
-### Running the web server that hosts the application
+##### Run the web server that hosts the application
 
-Run the following command to boot up the web server so that you can navigate the application:
+Running the following command will launch the app.
 ```
 python3 ./start_catalog_server.py
 ```
@@ -49,7 +84,7 @@ python3 ./start_catalog_server.py
 
 On your host machine, open up your browser and navigate to:
 ```
-localhost:5000
+https://localhost:5000
 ```
 
 Now you will be able to browse around the application project and utilize all the CRUD functionality once you have authenticated through Google Sign-In.
