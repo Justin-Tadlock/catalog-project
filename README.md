@@ -1,2 +1,71 @@
 # catalog-project
 An application that provides a list of items within a variety of categories as well as providing the user with registration and authentication system through Google Sign-in. Registered users will have the ability to post, edit and delete their own items.
+
+## Getting Started
+
+These instructions will get you a copy of the project up and running on your local machine.
+
+### Prerequisites
+
+To run the VM, you must have the following:
+* [VirtualBox](https://www.virtualbox.org/wiki/Downloads)
+* [Vagrant](https://www.vagrantup.com/)
+
+For more information on the base setup, visit the [Udacity VM Setup](https://github.com/udacity/fullstack-nanodegree-vm)
+
+
+### Running the VM
+
+To run the VM you must do the following:
+1. Obtain a copy of the repository from: [Repo Zip](https://github.com/udacity/fullstack-nanodegree-vm/archive/master.zip)
+2. Unzip the master.zip file into a chosen directory
+3. Obtain a copy of this repository from [here](https://github.com/Justin-Tadlock/catalog-project/archive/master.zip) 
+4. Unzip the content into the Vagrant's repository directory under "{repoLocation}/vagrant/catalog-project"
+5. Open a command prompt/PowerShell/terminal window inside the vagrant directory
+6. Run the following commands
+```
+vagrant init
+vagrant up
+vagrant ssh
+```
+
+### Setting up the data
+
+Once you establish a connection to your VM, run the following commands:
+```
+cd /vagrant/catalog-project
+python3 ./database_setup.py
+python3 ./init_catalog_items.py
+```
+
+### Running the web server that hosts the application
+
+Run the following command to boot up the web server so that you can navigate the application:
+```
+python3 ./start_catalog_server.py
+```
+
+### Browsing the application
+
+On your host machine, open up your browser and navigate to:
+```
+localhost:5000
+```
+
+Now you will be able to browse around the application project and utilize all the CRUD functionality once you have authenticated through Google Sign-In.
+
+## Built With
+
+* [Python](https://www.python.org/downloads/) - Python is a programming language that lets you work quickly and integrate systems more effectively
+* [Flask](https://palletsprojects.com/p/flask/) - A lightweight WSGI web application framework.
+* [SQLAlchemy](https://www.sqlalchemy.org/) - The Python SQL toolkit and Object Relational Mapper that gives application developers the full power and flexibility of SQL.
+* HTML
+* CSS
+
+## Authors
+
+* **[Justin-Tadlock](https://github.com/Justin-Tadlock)** - *Initial work*
+
+## Acknowledgments
+
+* [Udacity VM Setup](https://github.com/udacity/fullstack-nanodegree-vm) - for the initial setup of the Vagrant VM.
