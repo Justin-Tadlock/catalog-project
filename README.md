@@ -1,6 +1,7 @@
 # catalog-project
 An application that provides a list of items within a variety of categories as well as providing the user with registration and authentication system through Google Sign-in. Registered users will have the ability to post, edit and delete their own items.
 
+
 ## Getting Started
 
 These instructions will get you a copy of the project up and running on your local machine.
@@ -14,7 +15,7 @@ To run the VM, you must have the following:
 
 For more information on the base setup, visit the [Udacity VM Setup](https://github.com/udacity/fullstack-nanodegree-vm)
 
-##### A project created in your Google Dev console. 
+#### A project created in your Google Dev console. 
 0. The Dev Console can be found [here](https://console.developers.google.com)
 1. Create a project
 2. Go to your credentials. The root link is [here](https://console.developers.google.com/apis/credentials)
@@ -26,21 +27,21 @@ For more information on the base setup, visit the [Udacity VM Setup](https://git
 8. Click the "**Create**" button
 9. You are done with this step, move on to "Running the VM" section.
 
-##### You will need to download the credentials json file from your Google Dev Console
+#### You will need to download the credentials json file from your Google Dev Console
 1. Go to your Google Dev Console Credentials section [here](https://console.developers.google.com/apis/credentials)
 2. Go to the credentials you created in the Pre-Req section, on the far right click the **DOWN** arrow to download the credentials in json format
 3. Go to the location the file was downloaded, rename the file "client_secrets.json"
 4. Copy-paste the "client_secrets.json" file into your **catalog-project** app directory.
 5. You are done with this step
 
-##### You will also require a "secret_key.txt" file to be made and have some text inside it.
+#### You will also require a "secret_key.txt" file to be made and have some text inside it.
 1. In your catalog-project app directory create a "secret_key.txt" file.
 2. Open the file and type some text
 3. Save the file and close the file.
 4. You are done with this step
 
 
-### Running the VM
+## Running the VM
 
 To run the VM you must do the following:
 1. Obtain a copy of the repository from: [Repo Zip](https://github.com/udacity/fullstack-nanodegree-vm/archive/master.zip)
@@ -59,12 +60,15 @@ vagrant ssh
 cd /vagrant/catalog-project 
 ```
 
-### In order for the application to work, you must install the appropriate modules on your vagrant VM:
-```sudo pip3 install --upgrade -r requirements.txt```
+**In order for the application to work, you must install the appropriate modules on your vagrant VM:**
+```
+sudo pip3 install --upgrade -r requirements.txt
+```
 
-### Running the server
 
-##### Set up the data
+## Running the server
+
+#### Set up the data
 
 Run the following commands to set up the data used to initialize the database values:
 ```
@@ -73,14 +77,14 @@ python3 ./init_catalog_items.py
 ```
 **NOTE:** You only have to do this once when you first run the app or if you delete the **catalog_data.db** file.
 
-##### Run the web server that hosts the application
+#### Run the web server that hosts the application
 
 Running the following command will launch the app.
 ```
 python3 ./start_catalog_server.py
 ```
 
-### Browsing the application
+## Browsing the application
 
 On your host machine, open up your browser and navigate to:
 ```
@@ -88,6 +92,7 @@ https://localhost:5000
 ```
 
 Now you will be able to browse around the application project and utilize all the CRUD functionality once you have authenticated through Google Sign-In.
+
 
 ## Built With
 
@@ -97,9 +102,11 @@ Now you will be able to browse around the application project and utilize all th
 * HTML
 * CSS
 
+
 ## Authors
 
 * **[Justin-Tadlock](https://github.com/Justin-Tadlock)** - *Initial work*
+
 
 ## Acknowledgments
 
