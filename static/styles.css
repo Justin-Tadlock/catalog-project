@@ -108,7 +108,7 @@ footer {
     height: 100%;
 
     display: grid;
-    grid-template-columns: 1fr 7fr;
+    grid-template-columns: 2fr 7fr;
     grid-template-rows: 6fr 1fr;
 }
 
@@ -135,8 +135,13 @@ footer {
     padding-top: 2rem;
     list-style: none;
 }
-.categories ul li {
+.category-link {
     margin: 0.3rem 0;
+
+    width: 100%;
+
+    display: grid;
+    grid-template-columns: 7rem 1fr;
 }
 
 .sub-categories {
@@ -146,6 +151,13 @@ footer {
 
     overflow: scroll;
     overflow-x: hidden;
+}
+.sub-categories> a {
+    margin-top: 1.5rem;
+
+    width: 80%;
+
+    display: block;
 }
 .sub-category {
     margin: auto;
