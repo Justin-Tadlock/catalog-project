@@ -1,1 +1,146 @@
 /* Add page styles here. */
+* {
+    margin: 0;
+    padding: 0;
+    font-size: 14px;
+}
+
+body {
+    overflow: hidden;
+    background: #333;
+}
+
+nav {
+    height: 2rem;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background: #8BC34A;
+}
+
+nav,
+footer,
+.categories,
+.sub-categories,
+.item-header {
+    display: flex;
+}
+
+nav,
+footer,
+.content,
+.sub-categories {
+    justify-content: center;
+    align-items: center;
+}
+
+nav, 
+footer {
+    width: 100%;
+}
+
+nav {
+    height: 3rem;
+
+    justify-content: space-between;
+}
+
+footer {
+    height: 5rem;
+
+    position: absolute;
+    bottom: 0;
+    left:0;
+
+    text-align:center;
+
+    background: rgb(0, 150, 255)
+}
+
+.nav-left {
+    margin-left: 3rem;
+}
+.nav-right {
+    margin-right: 3rem;
+}
+
+.content {
+    padding: 0 2rem;
+
+    height: 100%;
+
+    display: grid;
+    grid-template-columns: 1.5fr 6.5fr;
+    grid-template-rows: 6fr 1fr;
+
+    background: #E64A19;
+}
+
+.categories,
+.sub-categories {
+    height: 80%;
+}
+.categories {
+    display: grid;
+    grid-template-rows: 2rem 1fr;
+
+    justify-content: center;
+    background: #FFFFFF;
+}
+.categories h1,
+.categories ul {
+    margin-top: 2rem;
+}
+.categories h1 {
+    text-align: center;
+}
+.categories ul {
+    list-style: none;
+}
+
+.sub-categories {
+    flex-direction: column;
+    justify-content: left;
+    align-items: center;
+
+    overflow: scroll;
+    overflow-x: hidden;
+
+    background: #FFCCBC;
+}
+.sub-category {
+    margin: auto;
+    padding-top: 3rem;
+
+    width: 80%;
+}
+.sub-category:last-child {
+    padding-bottom: 3rem;
+}
+.category-list {
+    margin-bottom: 2rem;
+
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: left;
+}
+.category-item {
+    margin-top: 1rem;
+    margin-right: 1rem;
+
+    width: 15rem;
+
+    border: solid black 1px;
+}
+.item-header {
+    padding: 0.5rem;
+    justify-content: space-between;
+}
+.item-img img {
+    width: 100%;
+}
+.item-description {
+    padding: 0.5rem;
+}

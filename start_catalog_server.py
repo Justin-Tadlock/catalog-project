@@ -15,6 +15,10 @@ app.secret_key = "Replace me"
 def Index():
     return render_template('index.html', title="Catalog")
 
+@app.route('/layout/index')
+def Layout():
+    return render_template('index_layout.html')
+
 
 if __name__ == "__main__":
     app.debug = True
