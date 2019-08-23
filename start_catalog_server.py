@@ -73,6 +73,23 @@ def DeleteItem_Layout():
         item=item
     )
 
+@app.route('/layout/editItem')
+def EditItem_Layout():
+    item = {
+        "name": "Test Item",
+        "price": "$5.99",
+        "category": "Outdoors",
+        "sub_category": "Tents",
+        "description": "It's a really small tent for only covering puppies"
+    }
+
+    return render_template(
+        'editItem_layout.html', 
+        item=item,
+        main_categories=main_categories,
+        sub_categories=sub_categories
+    )
+
 
 if __name__ == "__main__":
     app.debug = True
