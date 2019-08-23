@@ -25,6 +25,7 @@ body {
 }
 
 h1 {
+    text-align: center;
     font-size: 2.25rem;
 }
 h2 {
@@ -54,6 +55,7 @@ nav a {
     text-decoration: none;
 }
 
+/* display flex */
 nav,
 footer,
 .categories,
@@ -64,13 +66,25 @@ footer,
     display: flex;
 }
 
+
 nav,
 footer,
 .content,
 .sub-categories,
-.category-item-add {
+.category-item-add,
+.category-content,
+.form-container  {
     justify-content: center;
     align-items: center;
+}
+
+/* auto margin */
+.content,
+.category-content,
+.sub-category,
+.form-container,
+form {
+    margin: auto;
 }
 
 nav, 
@@ -104,20 +118,23 @@ footer {
     margin-right: 3rem;
 }
 
-.content {
-    margin: auto;
-
+.content,
+.category-content {
     width: 90%;
-    height: 100%;
-
-    display: grid;
-    grid-template-columns: 2fr 7fr;
-    grid-template-rows: 6fr 1fr;
+    height: 100vh;
 }
 
+.category-content {
+    width: 100%;
+
+    display: grid;
+    grid-template-columns: 2fr 10fr;
+    grid-template-rows: 6fr 1fr;
+}
 .categories,
 .sub-categories {
-    height: 80%;
+    margin: auto 0;
+    height: 90%;
 
     background: #FFFFFF;
 }
@@ -163,7 +180,6 @@ footer {
     display: block;
 }
 .sub-category {
-    margin: auto;
     padding-top: 3rem;
 
     width: 80%;
@@ -184,8 +200,7 @@ footer {
     margin-right: 1rem;
 
     width: 15rem;
-
-    border: solid #BDBDBD 1px;
+    min-height: 20rem;
 }
 .category-item {
     display: grid;
@@ -193,13 +208,8 @@ footer {
 
     align-content: space-between;
 }
-.category-item-add {
-    justify-content: center;
-    align-content: center;
-}
 
-.item-header,
-.item-mods {
+.item-header {
     padding: 0.5rem;
     justify-content: space-between;
 }
@@ -208,4 +218,29 @@ footer {
 }
 .item-description {
     padding: 0.5rem;
+}
+
+.form-container {
+    margin-top: 5%;
+    padding: 5rem;
+
+    max-width: 40%;
+
+    background: #C8E6C9;
+}
+.form-container h1 {
+    margin-bottom: 1.5rem;
+
+    color: #212121;
+    font-weight: bold;
+    
+    border-bottom: solid #212121 .2rem;
+}
+
+
+
+
+/* Troubleshooting styles */
+.form-item {
+    border: solid black 1px;
 }
