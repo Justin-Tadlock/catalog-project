@@ -58,14 +58,17 @@ nav,
 footer,
 .categories,
 .sub-categories,
-.item-header {
+.category-item-add,
+.item-header,
+.item-mods {
     display: flex;
 }
 
 nav,
 footer,
 .content,
-.sub-categories {
+.sub-categories,
+.category-item-add {
     justify-content: center;
     align-items: center;
 }
@@ -175,7 +178,8 @@ footer {
     flex-wrap: wrap;
     justify-content: left;
 }
-.category-item {
+.category-item,
+.category-item-add {
     margin-top: 1rem;
     margin-right: 1rem;
 
@@ -183,7 +187,19 @@ footer {
 
     border: solid #BDBDBD 1px;
 }
-.item-header {
+.category-item {
+    display: grid;
+    grid-template-rows: 2rem 15rem 1fr 2rem;
+
+    align-content: space-between;
+}
+.category-item-add {
+    justify-content: center;
+    align-content: center;
+}
+
+.item-header,
+.item-mods {
     padding: 0.5rem;
     justify-content: space-between;
 }
