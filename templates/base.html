@@ -13,22 +13,41 @@
         {% endif %}
         </title>
 
+        <!-- Load Bootstrap -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        
+        <!-- Load jQuery -->
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
         <link rel=stylesheet type=text/css href="{{ url_for('static', filename='styles.css') }}">
 
         <script src="{{ url_for('static', filename='scripts.js') }}"></script>
     </head>
     <body>
         <!-- Navigation Block -->
-        {% block navigation %}{% endblock %}
-
+        <nav>
+        {% block navigation %}
+        <div class="nav-left">
+            <a href="#">Test</a>
+        </div>
+        <div class="nav-right">
+            <a href="#">
+            Google Sign-In
+            </a>
+        </div>
+        {% endblock %}
+        </nav>
+    
         <!-- Content Block -->
-        {% block content %}{% endblock %}
-
-        <!-- Footer -->
-        {% block footer %}
-        <footer>
-            &copy; - Justin Tadlock
-        </footer>
-        {% endblock%}
+        <div class="content">
+            {% block content %}{% endblock %}
+            
+            <!-- Footer -->
+            {% block footer %}
+            <footer class="bg-blue">
+                &copy; - Justin Tadlock
+            </footer>
+            {% endblock%}
+        </div>
     </body>
 </html>
