@@ -24,8 +24,16 @@ body {
     background: #4CAF50;
 }
 
-h1 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
     text-align: center;
+}
+
+h1 {
     font-size: 2.25rem;
 }
 h2 {
