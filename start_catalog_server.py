@@ -28,6 +28,17 @@ except:
     print('ERROR: Please create a \'secret_key.txt\' file within the app\'s directory')
 
 
+# Get Secrets Data
+try:
+    SECRET_DATA = json.loads(open('client_secrets.json', 'r').read())['web']
+    CLIENT_ID = SECRET_DATA['client_id']
+    CLIENT_SECRET = SECRET_DATA['client_secret']
+
+    # Get the redirect uri from the file in the form of '/url'
+    CLIENT_REDIRECT = SECRET_DATA['redirect_uris'][0]
+    CLIENT_REDIRECT = '/%s' % (CLIENT_REDIRECT.split('/')[-1])
+except:
+    print('ERROR: Please download your \'client_secrets.json\' file from your \'https://console.developers.google.com\' project')
 @app.route("/")
 def Index():
     return render_template('index.html', title="Catalog")
