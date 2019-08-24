@@ -139,6 +139,13 @@ hr {
 .nav-left {
     margin-left: 3rem;
 }
+.nav-center {
+    margin:auto;
+
+    color: #FFFFFF;
+    font-weight: bold;
+    font-size: 1.25rem;
+}
 .nav-right {
     margin-right: 3rem;
 }
