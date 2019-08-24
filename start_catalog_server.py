@@ -99,6 +99,35 @@ def Show_Category(main_cat_id):
         items=items
     )
 
+@app.route('/addCategory')
+def Add_Category():
+    return render_template(
+        'add-category.html',
+        title="Item Catalog"
+    )
+
+
+@app.route('/editCategory/<int:main_cat_id>')
+def Edit_Category(main_cat_id):
+    main_category = session.query(Category).filter_by(id=main_cat_id).one_or_none()
+
+    return render_template(
+        'edit-category.html',
+        title="Item Catalog",
+        main_category=main_category
+    )
+
+
+@app.route('/deleteCategory/<int:main_cat_id>')
+def Delete_Category(main_cat_id):
+    main_category = session.query(Category).filter_by(id=main_cat_id).one_or_none()
+
+    return render_template(
+        'delete-category.html',
+        title="Item Catalog",
+        main_category=main_category
+    )
+
 
 @app.route('/addItem/<int:main_id>/<int:sub_id>')
 def Add_Item(main_id, sub_id):
