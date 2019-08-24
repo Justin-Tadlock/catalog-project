@@ -2,6 +2,7 @@ import psycopg2
 import json
 import random, string
 import httplib2, requests, bleach
+import sys
 
 from flask import (
     Flask,
@@ -24,8 +25,11 @@ app = Flask(__name__)
 # Add the secret key for the app
 try:
     app.secret_key = open('secret_key.txt', 'r').read()
-except:
-    print('ERROR: Please create a \'secret_key.txt\' file within the app\'s directory')
+except IOError as ioe:
+    print('Error: Please create a \'secret_key.txt\' file within the app\'s directory')
+    print(ioe.pgerror)
+    print(ioe.diag.message_detail)
+    sys.exit(1)
 
 
 # Get Secrets Data
