@@ -43,6 +43,12 @@
     
         <!-- Content Block -->
         <div class="content">
+            {% if back_url %}
+            <div>
+                <a href="{{ back_url }}" class="btn btn-dark"><i class="material-icons">arrow_back</i></a>
+            </div>
+            {% endif %}
+            
             {% block content %}{% endblock %}
             
             <!-- Footer -->
