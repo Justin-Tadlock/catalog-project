@@ -82,13 +82,17 @@ def Index_Layout():
     )
 
 
+@app.route('/addItem/<int:main_id>/<int:sub_id>')
+def Add_Item(main_id, sub_id):
+    main_categories = session.query(Category).all()
+    sub_categories = session.query(Sub_Category).all()
 
-@app.route('/layout/addItem')
-def AddItem_Layout():
     return render_template(
-        'addItem_layout.html', 
+        'add-item.html', 
         main_categories=main_categories, 
-        sub_categories=sub_categories
+        main_id=main_id,
+        sub_categories=sub_categories,
+        sub_id=sub_id
     )
 
 @app.route('/layout/deleteItem')
