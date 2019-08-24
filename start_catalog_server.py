@@ -70,7 +70,7 @@ def Generate_State_Token():
 
 
 @app.route('/')
-def Index_Layout():
+def Index():
     main_categories = session.query(Category).all()
     sub_categories = session.query(Sub_Category).all()
     items = session.query(Item).order_by(Item.id.desc()).limit(10).all()
