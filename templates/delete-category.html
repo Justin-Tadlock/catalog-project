@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+    
+{% block content %}
+<div class="form-container">
+  <h1>Delete Item</h1>
+  <br>
+  <h5>
+    Are you sure you want to delete the following item?
+    <br><br>
+    <i>WARNING: This will also delete <u>all</u> related items!</i>
+  </h5>
+  <form method="POST" enctype="multipart/form-data" action="#">
+    <div class="form-group row">
+      <div class="col-sm-12">
+        <input type=text class="form-control" id="category_name" name="category_name" placeholder="{{main_category.name}}" readonly>
+      </div>
+    </div>
+    <br><br>
+    <div class="text-center">
+      <input type=submit class="btn btn-primary" value="Confirm">&nbsp;
+      <input type=button class="btn btn-danger" onclick="window.location.href = '/';" value="Cancel">
+    </div>
+  </form>
+</div>
+{% endblock %}
