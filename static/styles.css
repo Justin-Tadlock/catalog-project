@@ -179,9 +179,7 @@ hr {
 
     border-right: solid #BDBDBD 1px;
 }
-.categories> h4,
-.sub-category>h1,
-.sub-category>h3 {
+.section-divider {
     height: 5rem;
 
     display: flex;
@@ -219,6 +217,14 @@ hr {
     display: inline-block;
     align-self: flex-start;
 }
+.sub-category .section-divider {
+    padding-left: 2.5rem;
+    justify-content: left;
+}
+.sub-category:first-child .section-divider {
+    justify-content: center;
+}
+
 .sub-category {
     padding-top: 1.5rem;
 
