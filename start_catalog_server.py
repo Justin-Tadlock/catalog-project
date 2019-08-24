@@ -51,6 +51,13 @@ except:
 engine = create_engine('sqlite:///item_catalog.db?check_same_thread=False')
 DBsession = sessionmaker(bind=engine)
 session = DBsession()
+
+
+def Log(msg, err=False):
+    if not err and app.debug:
+        print('INFO: %s' % (msg))
+    else:
+        print('ERROR: %s' % (msg))
 @app.route("/")
 def Index():
     return render_template('index.html', title="Catalog")
