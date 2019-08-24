@@ -30,7 +30,13 @@ h3,
 h4,
 h5,
 h6 {
+    margin-bottom: 1.5rem;
+    
+    color: #212121;
     text-align: center;
+    font-weight: bold;
+    
+    border-bottom: solid #212121 .2rem;
 }
 
 h1 {
@@ -236,15 +242,6 @@ footer {
 
     background: #C8E6C9;
 }
-.form-container h1 {
-    margin-bottom: 1.5rem;
-
-    color: #212121;
-    font-weight: bold;
-    
-    border-bottom: solid #212121 .2rem;
-}
-
 
 
 
