@@ -81,6 +81,18 @@ def Index_Layout():
         items=items
     )
 
+@app.route('/show/<int:main_cat_id>')
+def Show_Category(main_cat_id):
+    sub_categories = session.query(Sub_Category).filter_by(cat_id=main_cat_id).all()
+    items = session.query(Item).filter_by(cat_id=main_cat_id).all()
+
+    return render_template(
+        'show-category.html',
+        title='Item Catalog',
+        sub_categories=sub_categories,
+        items=items
+    )
+
 
 @app.route('/addItem/<int:main_id>/<int:sub_id>')
 def Add_Item(main_id, sub_id):

@@ -1,0 +1,47 @@
+{% extends "category-list.html" %}
+
+{% block sub_categories %}
+<div class="sub-categories">
+  <a href="#">Add New Item</a>
+
+  {% if sub_categories %}
+  {% for sub_cat in sub_categories %}
+  <div class="sub-category">
+    <h3>{{ sub_cat.name }}</h3>
+    <div class="category-list">
+      {% for item in items %}
+      {% if item.sub_category == sub_cat.name %}
+      <div class="category-item">
+        <div class="item-img">
+          <img src="{{ item.picture }}" />
+        </div>
+        
+        <div class="item-header">
+          <span class="item-name">{{ item.name }}</span>
+          <span class="item-price">{{ item.price }}</span>
+        </div>
+        
+        <div class="item-description">
+          {{ item.description }}
+        </div>
+
+        <div class="item-header">
+          <a href="{{ url_for('Edit_Item', item_id=item.id) }}">Edit</a>
+          <a href="{{ url_for('Delete_Item', item_id=item.id) }}">Delete</a>
+        </div>
+      </div>
+      {% endif %}
+      {% endfor %}
+      <div class="category-item-add">
+          <div class="item-img">
+            <a href="{{ url_for('Add_Item', main_id=sub_cat.cat_id, sub_id=sub_cat.id) }}">
+              <img src="{{ url_for('static', filename='images/plus_green_icon.png') }}" />
+            </a>
+          </div>
+        </div>
+    </div>
+  </div>
+  {% endfor %}
+  {% endif %}
+</div>
+{% endblock%}
