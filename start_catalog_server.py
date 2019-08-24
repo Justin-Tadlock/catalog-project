@@ -39,6 +39,14 @@ try:
     CLIENT_REDIRECT = '/%s' % (CLIENT_REDIRECT.split('/')[-1])
 except:
     print('ERROR: Please download your \'client_secrets.json\' file from your \'https://console.developers.google.com\' project')
+
+
+# Add the client id to all templates
+try:
+    app.add_template_global(name='client_id', f=CLIENT_ID)
+except:
+    print('ERROR: Could not add jinja2 global client id variable')
+
 @app.route("/")
 def Index():
     return render_template('index.html', title="Catalog")
