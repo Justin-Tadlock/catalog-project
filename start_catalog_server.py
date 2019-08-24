@@ -20,7 +20,12 @@ from google.oauth2 import id_token
 from google.auth.transport import requests
 
 app = Flask(__name__)
-app.secret_key = "Replace me"
+
+# Add the secret key for the app
+try:
+    app.secret_key = open('secret_key.txt', 'r').read()
+except:
+    print('ERROR: Please create a \'secret_key.txt\' file within the app\'s directory')
 
 
 @app.route("/")
