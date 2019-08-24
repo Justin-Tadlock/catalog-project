@@ -62,6 +62,12 @@ def Log(msg, err=False):
         print('INFO: %s' % (msg))
     else:
         print('ERROR: %s' % (msg))
+
+
+def Generate_State_Token():
+    state = ''.join(random.choice(string.ascii_uppercase + string.digits) for x in range(32))
+    login_session['state'] = state
+
 @app.route("/")
 def Index():
     return render_template('index.html', title="Catalog")
