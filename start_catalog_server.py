@@ -77,7 +77,7 @@ def Index():
 
     return render_template(
         'index.html',
-        title='Item Catalog',
+        title='Latest Items',
         main_categories=main_categories,
         sub_categories=sub_categories,
         items=items
@@ -92,7 +92,7 @@ def Show_Category(main_cat_id):
 
     return render_template(
         'show-category.html',
-        title='Item Catalog',
+        title='Item Catalog - %s' % (main_category.name),
         main_category=main_category,
         main_categories=main_categories,
         sub_categories=sub_categories,
