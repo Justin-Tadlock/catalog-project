@@ -68,14 +68,19 @@ def Generate_State_Token():
     state = ''.join(random.choice(string.ascii_uppercase + string.digits) for x in range(32))
     login_session['state'] = state
 
-@app.route("/")
-def Index():
-    return render_template('index.html', title="Catalog")
 
-
-@app.route('/layout/index')
+@app.route('/')
 def Index_Layout():
-    return render_template('index_layout.html')
+    sub_categories = session.query(Sub_Category).all()
+    items = session.query(Item).limit(10).all()
+
+    return render_template(
+        'index.html',
+        title='Item Catalog',
+        sub_categories=sub_categories,
+        items=items
+    )
+
 
 
 @app.route('/layout/addItem')
