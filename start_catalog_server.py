@@ -1,3 +1,8 @@
+import psycopg2
+import json
+import random, string
+import httplib2, requests, bleach
+
 from flask import (
     Flask,
     request,
@@ -10,11 +15,6 @@ from flask import (
 from database_setup import Base, User, Category, Sub_Category, Item
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-
-import psycopg2
-import json
-import random, string
-import httplib2, requests, bleach
 
 from google.oauth2 import id_token
 from google.auth.transport import requests
