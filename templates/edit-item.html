@@ -3,7 +3,7 @@
 {% block content %}
 <div class="form-container">
   <h1>Edit Item</h1>
-  
+  <br>
   <form method="POST" enctype="multipart/form-data" action="#">
     <div class="form-group row">
       <div class="col-sm-6">
@@ -19,10 +19,10 @@
           <option selected>Choose Item Main Category...</option>
           {% if main_categories %}
           {% for category in main_categories %}
-            {% if item.category == category %}  
-              <option value="{{category}}" selected>{{category}}</option>
+            {% if item.category == category.name %}  
+              <option value="{{category.name}}" selected>{{category.name}}</option>
             {% else %}
-              <option value="{{category}}">{{category}}</option>
+              <option value="{{category.name}}">{{category.name}}</option>
             {% endif %}
           {% endfor %}
           {% endif %}
@@ -39,15 +39,23 @@
       <div class="col-sm-12">
         <select class="custom-select" id="item_sub_category" name="item_sub_category">
           <option selected>Choose Item Sub-Category...</option>
-          {% if sub_categories[item.category] %}
-          {% for sub_category in sub_categories[item.category] %}
-            {% if item.sub_category == sub_category %}  
-              <option value="{{sub_category}}" selected>{{sub_category}}</option>
-            {% else %}
-              <option value="{{sub_category}}">{{sub_category}}</option>
+          
+          {% if main_categories %}
+          {% for main_cat in main_categories %}
+            <optgroup label="{{main_cat.name}}">
+            {% if sub_categories %}
+            {% for sub_cat in sub_categories %}
+              {% if sub_cat.cat_id == main_cat.id and item.sub_category == sub_cat.name %}  
+                <option value="{{sub_cat.name}}" selected>{{sub_cat.name}}</option>
+              {% elif sub_cat.cat_id == main_cat.id %}
+                <option value="{{sub_cat.name}}">{{sub_cat.name}}</option>
+              {% endif %}
+            {% endfor %}
             {% endif %}
+            </optgroup>
           {% endfor %}
           {% endif %}
+          
           <option value="Other">Other</option>
         </select>
       </div>
