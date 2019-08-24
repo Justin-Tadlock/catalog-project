@@ -95,18 +95,12 @@ def Add_Item(main_id, sub_id):
         sub_id=sub_id
     )
 
-@app.route('/layout/deleteItem')
-def DeleteItem_Layout():
-    item = {
-        "name": "Test Item",
-        "price": "$5.99",
-        "category": "Outdoors",
-        "sub_category": "Tents",
-        "description": "It's a really small tent for only covering puppies"
-    }
+@app.route('/deleteItem/<int:item_id>')
+def Delete_Item(item_id):
+    item = session.query(Item).filter_by(id=item_id).one_or_none()
 
     return render_template(
-        'deleteItem_layout.html', 
+        'delete-item.html', 
         item=item
     )
 
