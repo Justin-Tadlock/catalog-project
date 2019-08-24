@@ -71,12 +71,14 @@ def Generate_State_Token():
 
 @app.route('/')
 def Index_Layout():
+    main_categories = session.query(Category).all()
     sub_categories = session.query(Sub_Category).all()
-    items = session.query(Item).limit(10).all()
+    items = session.query(Item).order_by(Item.id.desc()).limit(10).all()
 
     return render_template(
         'index.html',
         title='Item Catalog',
+        main_categories=main_categories,
         sub_categories=sub_categories,
         items=items
     )
