@@ -130,7 +130,8 @@ def Delete_Category(main_cat_id):
 
 
 @app.route('/addItem/<int:main_id>/<int:sub_id>')
-def Add_Item(main_id, sub_id):
+@app.route('/addItem/<int:main_id>')
+def Add_Item(main_id, sub_id=None):
     main_categories = session.query(Category).all()
     sub_categories = session.query(Sub_Category).all()
 
