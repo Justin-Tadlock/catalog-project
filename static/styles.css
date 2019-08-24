@@ -172,12 +172,18 @@ hr {
 
     border-right: solid #BDBDBD 1px;
 }
-.categories> h4 {
+.categories> h4,
+.sub-category>h1,
+.sub-category>h3 {
+    height: 5rem;
+
     display: flex;
     justify-content: center;
     align-items: center;
+    
     background: #BDBDBD;
 }
+
 .categories ul {
     padding-top: 2rem;
     padding: 2rem 2rem;
@@ -190,15 +196,15 @@ hr {
 
 
 .sub-categories {
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
+    
     justify-content: left;
     align-items: center;
 
     overflow: scroll;
     overflow-x: hidden;
-}
-.sub-categories> hr {
-    width: 80%;
 }
 .sub-categories> a {
     margin-left: 10rem;
@@ -207,9 +213,12 @@ hr {
     align-self: flex-start;
 }
 .sub-category {
-    padding-top: 3rem;
+    padding-top: 1.5rem;
 
     width: 80%;
+}
+.sub-category:first-child {
+    padding: 0;
 }
 .sub-category:last-child {
     padding-bottom: 3rem;
