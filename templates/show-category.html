@@ -2,20 +2,10 @@
 
 {% block sub_categories %}
 <div class="sub-categories">
-  <div class="sub-category">
-    <h1>{{ main_category.name }}</h1>
-    <div class="category-item-add">
-      <a href="{{ url_for('Add_Item', main_id=main_category.id) }}">
-        <i class="material-icons">add</i>
-      </a>
-    </div>
-    <br><br>
-  </div>
-
   {% if sub_categories %}
   {% for sub_cat in sub_categories %}
   <div class="sub-category">
-    <h3>{{ sub_cat.name }}</h3>
+    <h3 class="section-divider">{{ sub_cat.name }}</h3>
 
     <div class="category-list">
       {% for item in items %}
@@ -51,5 +41,14 @@
   </div>
   {% endfor %}
   {% endif %}
+
+  <div class="sub-category">
+    <h3 class="section-divider">Add new items</h3>
+    <div class="category-item-add">
+      <a href="{{ url_for('Add_Item', main_id=main_category.id) }}">
+        <i class="material-icons">add</i>
+      </a>
+    </div>
+  </div>
 </div>
 {% endblock%}
