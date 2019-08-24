@@ -5,7 +5,6 @@
   <div class="categories">
     <h4>Categories</h4>
     <ul>
-        <li><a href="{{ url_for('Add_Category') }}">Add Category</a></li>
         {% if main_categories %}
         {% for category in main_categories %}
           <li>
@@ -19,6 +18,13 @@
           </li>
         {% endfor %}
         {% endif %}
+        <li>
+          <div class="category-item-add">
+            <a href="{{ url_for('Add_Category') }}">
+              <i class="material-icons">add</i>
+            </a>
+          </div>
+        </li>
     </ul>
   </div>
   {% block sub_categories %}{% endblock %}
