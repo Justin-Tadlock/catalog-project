@@ -47,6 +47,10 @@ try:
 except:
     print('ERROR: Could not add jinja2 global client id variable')
 
+# Adding db functionality for CRUD operations
+engine = create_engine('sqlite:///item_catalog.db?check_same_thread=False')
+DBsession = sessionmaker(bind=engine)
+session = DBsession()
 @app.route("/")
 def Index():
     return render_template('index.html', title="Catalog")
