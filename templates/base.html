@@ -32,12 +32,15 @@
         <nav>
         {% block navigation %}
         <div class="nav-left">
-            <a href="#">Test</a>
+            <a href="/">Item Catalog</a>
             {% if back_url %}
             <div>
                 <a href="{{ back_url }}" class="btn btn-dark"><i class="material-icons">arrow_back</i></a>
             </div>
             {% endif %}
+        </div>
+        <div class="nav-center">
+            {{ title }}
         </div>
         <div class="nav-right">
             <a href="#">
