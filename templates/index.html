@@ -1,55 +1,16 @@
-{% extends "base.html" %}
+{% extends "category-list.html" %}
 
-{% block content %}
-<div class="category-content">
-  <div class="categories">
-    <h4>Categories</h4>
-    <ul>
-        <li><a href="#">Add Category</a></li>
-        {% if main_categories %}
-        {% for category in main_categories %}
-          <li>
-            <div class="category-link">
-              <a href="{{ url_for('Category', category.id) }}">{{category.name}}</a>
-              <div class="cat-link-mods">
-                <a href="{{ url_for('EditCategory_Layout', category.id) }}">E</a>
-                <a href="{{ url_for('DeleteCategory_Layout', category.id) }}">X</a>
-              </div>
-            </li>  
-          </li>
-        {% endfor %}
-        {% endif %}
-        <li>
-          <div class="category-link">
-            <a href="#">Category 1</a>
-            <div class="cat-link-mods">
-              <a href="#">E</a>
-              <a href="#">X</a>
-            </div>
-          </li>
-        <li>
-          <div class="category-link">
-            <a href="#">Category 2</a>
-            <div class="cat-link-mods">
-              <a href="#">E</a>
-              <a href="#">X</a>
-            </div>
-        </li>
-    </ul>
-  </div>
-  
-  <div class="sub-categories">
-    <h2>Latest Items</h2>
-    <a href="#">Add New Item</a>
+{% block sub_categories %}
+<div class="sub-categories">
+  <h2>Latest Items</h2>
+  <a href="#">Add New Item</a>
 
-    {% if sub_categories %}
-    {% for sub_cat in sub_categories %}
-    <div class="sub-category">
-      <h3>{{ sub_cat.name }}</h3>
-      <div class="category-list">
-        {% for item in items %}
-        {% if item.sub_category == sub_cat.name %}
-        <div class="category-item">
+  {% if sub_categories %}
+  <div class="sub-category">
+    <div class="category-list">
+      {% for item in items %}
+      <div class="category-item">
+        <a href="{{ item.link }}" target=_blank>
           <div class="item-img">
             <img src="{{ item.picture }}" />
           </div>
@@ -62,25 +23,15 @@
           <div class="item-description">
             {{ item.description }}
           </div>
-
-          <div class="item-mods">
-            <a href="{{ url_for('Edit_Item', item_id=item.id) }}">Edit</a>
-            <a href="{{ url_for('Delete_Item', item_id=item.id) }}">Delete</a>
-          </div>
-        </div>
-        {% endif %}
-        {% endfor %}
-        <div class="category-item-add">
-          <div class="item-img">
-            <a href="{{ url_for('Add_Item', main_id=sub_cat.cat_id, sub_id=sub_cat.id) }}">
-              <img src="{{ url_for('static', filename='images/plus_green_icon.png') }}" />
-            </a>
-          </div>
+        </a>
+        <div class="item-header">
+          <a href="{{ url_for('Edit_Item', item_id=item.id) }}">Edit</a>
+          <a href="{{ url_for('Delete_Item', item_id=item.id) }}">Delete</a>
         </div>
       </div>
+      {% endfor %}
     </div>
-    {% endfor %}
-    {% endif %}
   </div>
+  {% endif %}
 </div>
 {% endblock%}

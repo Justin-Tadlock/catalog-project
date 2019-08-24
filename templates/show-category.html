@@ -2,29 +2,38 @@
 
 {% block sub_categories %}
 <div class="sub-categories">
-  <a href="#">Add New Item</a>
+  <h1>{{ main_category.name }}</h1>
+  <hr>
+  <div class="category-item-add">
+      <a href="{{ url_for('Add_Item', main_id=main_category.id) }}">
+        <i class="material-icons">add</i>
+      </a>
+    </div>
 
   {% if sub_categories %}
   {% for sub_cat in sub_categories %}
   <div class="sub-category">
     <h3>{{ sub_cat.name }}</h3>
+    <hr>
+
     <div class="category-list">
       {% for item in items %}
       {% if item.sub_category == sub_cat.name %}
       <div class="category-item">
-        <div class="item-img">
-          <img src="{{ item.picture }}" />
-        </div>
-        
-        <div class="item-header">
-          <span class="item-name">{{ item.name }}</span>
-          <span class="item-price">{{ item.price }}</span>
-        </div>
-        
-        <div class="item-description">
-          {{ item.description }}
-        </div>
-
+        <a href="{{ item.link }}" target=_blank>
+          <div class="item-img">
+            <img src="{{ item.picture }}" />
+          </div>
+          
+          <div class="item-header">
+            <span class="item-name">{{ item.name }}</span>
+            <span class="item-price">{{ item.price }}</span>
+          </div>
+          
+          <div class="item-description">
+            {{ item.description }}
+          </div>
+        </a>
         <div class="item-header">
           <a href="{{ url_for('Edit_Item', item_id=item.id) }}">Edit</a>
           <a href="{{ url_for('Delete_Item', item_id=item.id) }}">Delete</a>
@@ -33,12 +42,10 @@
       {% endif %}
       {% endfor %}
       <div class="category-item-add">
-          <div class="item-img">
-            <a href="{{ url_for('Add_Item', main_id=sub_cat.cat_id, sub_id=sub_cat.id) }}">
-              <img src="{{ url_for('static', filename='images/plus_green_icon.png') }}" />
-            </a>
-          </div>
-        </div>
+        <a href="{{ url_for('Add_Item', main_id=sub_cat.cat_id, sub_id=sub_cat.id) }}">
+          <i class="material-icons">add</i>
+        </a>
+      </div>
     </div>
   </div>
   {% endfor %}

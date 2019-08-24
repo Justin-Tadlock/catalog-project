@@ -5,36 +5,20 @@
   <div class="categories">
     <h4>Categories</h4>
     <ul>
-        <li><a href="#">Add Category</a></li>
+        <li><a href="{{ url_for('Add_Category') }}">Add Category</a></li>
         {% if main_categories %}
         {% for category in main_categories %}
           <li>
             <div class="category-link">
-              <a href="{{ url_for('Category', category.id) }}">{{category.name}}</a>
+              <a href="{{ url_for('Show_Category', main_cat_id=category.id) }}">{{category.name}}</a>
               <div class="cat-link-mods">
-                <a href="{{ url_for('EditCategory_Layout', category.id) }}">E</a>
-                <a href="{{ url_for('DeleteCategory_Layout', category.id) }}">X</a>
+                <a href="{{ url_for('Edit_Category', main_cat_id=category.id) }}"><i class="material-icons">edit</i></a>
+                <a href="{{ url_for('Delete_Category', main_cat_id=category.id) }}"><i class="material-icons">delete</i></a>
               </div>
             </li>  
           </li>
         {% endfor %}
         {% endif %}
-        <li>
-          <div class="category-link">
-            <a href="#">Category 1</a>
-            <div class="cat-link-mods">
-              <a href="#">E</a>
-              <a href="#">X</a>
-            </div>
-          </li>
-        <li>
-          <div class="category-link">
-            <a href="#">Category 2</a>
-            <div class="cat-link-mods">
-              <a href="#">E</a>
-              <a href="#">X</a>
-            </div>
-        </li>
     </ul>
   </div>
   {% block sub_categories %}{% endblock %}
