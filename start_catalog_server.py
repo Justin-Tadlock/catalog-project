@@ -22,35 +22,6 @@ from google.auth.transport import requests
 app = Flask(__name__)
 app.secret_key = "Replace me"
 
-# Temp Data
-main_categories = ['Outdoors', 'Video Games', 'Technology', 'Kitchen']
-sub_categories = {
-    "Outdoors": [
-        'Boots',
-        'Tents',
-        'Backpacks',
-        'Gloves',
-        'Coolers'
-    ],
-    "Video Games": [
-        'Consoles',
-        'Games',
-        'Accessories'
-    ],
-    "Technology": [
-        'Desktops',
-        'Laptops',
-        'Monitors',
-        'Keyboards',
-        'Mice'
-    ],
-    "Kitchen": [
-        'Pots and Pans',
-        'Cups',
-        'Silverware',
-        'Coffee Makers'
-    ]
-}
 
 @app.route("/")
 def Index():
