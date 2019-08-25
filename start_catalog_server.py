@@ -199,6 +199,13 @@ def API_Category_Items(main_cat_id):
     return jsonify(Item=[item.serialize for item in items])
 
 
+@app.route('/api/subCategory/<int:sub_cat_id>')
+def API_Sub_Category_Items(sub_cat_id):
+    items = session.query(Item).filter_by(sub_cat_id=sub_cat_id).all()
+
+    return jsonify(Item=[item.serialize for item in items])
+
+
 @app.route('/api/item/<int:item_id>')
 def API_Item(item_id):
     item = session.query(Item).filter_by(id=item_id).one_or_none()
