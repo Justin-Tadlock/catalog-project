@@ -192,6 +192,14 @@ def API_All_Items():
     return jsonify(Item=[item.serialize for item in items])
 
 
+@app.route('/api/item/<int:item_id>')
+def API_Item(item_id):
+    item = session.query(Item).filter_by(id=item_id).one_or_none()
+
+    return jsonify(Item=item.serialize)
+
+
+
 if __name__ == "__main__":
     app.debug = True
     app.run(host="0.0.0.0", port=5000)
