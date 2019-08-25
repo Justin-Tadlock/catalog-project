@@ -384,11 +384,16 @@ hr {
 
 .form-container {
     margin-top: 5%;
-    padding: 5rem;
+    width: 40%;
 
-    max-width: 40%;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 5rem 1fr;
 
-    background: #C8E6C9;
+    background: #FFFFFF;
+}
+.form-container form {
+    padding: 2rem;
 }
 
 
