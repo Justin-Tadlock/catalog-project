@@ -22,7 +22,7 @@
 
 body {
     overflow: hidden;
-    background: #00796B;
+    background: #009688;
 }
 
 h1,
@@ -111,7 +111,7 @@ nav {
 
     justify-content: space-between;
 
-    background: #009688;
+    background: #00796B;
 }
 
 footer {
@@ -185,8 +185,9 @@ hr {
     display: flex;
     justify-content: center;
     align-items: center;
+    color: #FFFFFF;
     
-    background: #B2DFDB;
+    background: #00796B;
 }
 
 .categories ul {
@@ -195,8 +196,38 @@ hr {
     list-style: none;
 }
 .category-link {
+    height: 2rem;
     display: grid;
-    grid-template-columns: 1fr 4rem;
+    grid-template-columns: 1fr 6rem;
+
+    align-items: center;
+}
+.category-link:hover {
+    background: #B2DFDB;
+}
+.category-link a {
+    padding-left: 1rem;
+
+    color: #212121;
+    font-weight: bold;
+}
+.category-link:hover a {
+    color: #FFFFFF;
+    text-decoration: none;
+}
+.cat-link-mods {
+    display:flex;
+    justify-content: flex-end;
+    align-items: center;
+
+    color: #212121;
+}
+.cat-link-mods i {
+    display:flex;
+    align-items: center;
+}
+.cat-link-mods i:hover {
+    color: #FFFFFF;
 }
 
 
