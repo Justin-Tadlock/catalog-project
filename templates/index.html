@@ -22,8 +22,8 @@
           </div>
         </a>
         <div class="item-header">
-          <a href="{{ url_for('Edit_Item', item_id=item.id) }}">Edit</a>
-          <a href="{{ url_for('Delete_Item', item_id=item.id) }}">Delete</a>
+          <a href="{{ url_for('Edit_Item', item_id=item.id) }}"><i class="material-icons">edit</i></a>
+          <a href="{{ url_for('Delete_Item', item_id=item.id) }}"><i class="material-icons">delete</i></a>
         </div>
       </div>
       {% endfor %}
