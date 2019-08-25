@@ -114,7 +114,7 @@ def Edit_Category(main_cat_id):
     return render_template(
         'edit-category.html',
         title="Item Catalog",
-        main_category=main_category
+        category=main_category
     )
 
 
@@ -125,7 +125,30 @@ def Delete_Category(main_cat_id):
     return render_template(
         'delete-category.html',
         title="Item Catalog",
-        main_category=main_category
+        category=main_category
+    )
+
+@app.route('/editSubCategory/<int:main_cat_id>/<int:sub_cat_id>')
+def Edit_Sub_Category(main_cat_id, sub_cat_id):
+    sub_category = session.query(Sub_Category).filter_by(id=sub_cat_id).one_or_none()
+
+    return render_template(
+        'edit-category.html',
+        title="Item Catalog",
+        category=sub_category,
+        main_cat_id=main_cat_id
+    )
+
+
+@app.route('/deleteSubCategory/<int:main_cat_id>/<int:sub_cat_id>')
+def Delete_Sub_Category(main_cat_id, sub_cat_id):
+    sub_category = session.query(Sub_Category).filter_by(id=sub_cat_id).one_or_none()
+
+    return render_template(
+        'delete-category.html',
+        title="Item Catalog",
+        category=sub_category,
+        main_cat_id=main_cat_id
     )
 
 

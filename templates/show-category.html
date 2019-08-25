@@ -5,7 +5,13 @@
   {% if sub_categories %}
   {% for sub_cat in sub_categories %}
   <div class="sub-category">
-    <h3 class="section-divider">{{ sub_cat.name }}</h3>
+    <h3 class="section-divider">
+      {{ sub_cat.name }}
+      <div>
+        <a href="{{ url_for('Edit_Sub_Category', main_cat_id=sub_cat.cat_id, sub_cat_id=sub_cat.id) }}"><i class="material-icons">edit</i></a>
+        <a href="{{ url_for('Delete_Sub_Category', main_cat_id=sub_cat.cat_id, sub_cat_id=sub_cat.id) }}"><i class="material-icons">delete</i></a>
+      </div>
+    </h3>
 
     <div class="category-list">
       {% for item in items %}

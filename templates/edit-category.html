@@ -8,13 +8,17 @@
   <form method="POST" enctype="multipart/form-data" action="#">
     <div class="form-group row">
       <div class="col-sm-12">
-        <input type=text class="form-control" id="category_name" name="category_name" placeholder="{{main_category.name}}">
+        <input type=text class="form-control" id="category_name" name="category_name" placeholder="{{category.name}}">
       </div>
     </div>
     <br><br>
     <div class="text-center">
       <input type=submit class="btn btn-primary" value="Confirm">&nbsp;
-      <input type=button class="btn btn-danger" onclick="window.location.href = '/';" value="Cancel">
+      {% if main_cat_id %}
+        <input type=button class="btn btn-danger" onclick="window.location.href = '{{ url_for('Show_Category', main_cat_id=main_cat_id) }}';" value="Cancel">
+      {% else %}
+        <input type=button class="btn btn-danger" onclick="window.location.href = '/';" value="Cancel">
+      {% endif %}
     </div>
   </form>
 </div>
