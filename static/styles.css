@@ -202,17 +202,14 @@ hr {
 
     align-items: center;
 }
-.category-link:hover {
-    background: #B2DFDB;
-}
 .category-link a {
     padding-left: 1rem;
 
     color: #212121;
     font-weight: bold;
 }
-.category-link:hover a {
-    color: #FFFFFF;
+.category-link a:hover {
+    color: #009688;
     text-decoration: none;
 }
 .cat-link-mods {
@@ -227,7 +224,7 @@ hr {
     align-items: center;
 }
 .cat-link-mods i:hover {
-    color: #FFFFFF;
+    color: #009688;
 }
 
 
@@ -277,16 +274,20 @@ hr {
 .category-item {
     margin-top: 1rem;
     margin-right: 1rem;
+    padding-top: 1rem;
 
     width: 15rem;
     min-height: 25rem;
 
     display: grid;
-    grid-template-rows: 1fr 2rem;
+    grid-template-rows: 1fr 3rem;
 
     align-content: space-between;
 
     border: solid #FFFF .1rem;
+}
+.category-item i:hover {
+    color: #009688;
 }
 .category-item a {
     display: grid;
@@ -295,7 +296,11 @@ hr {
     text-decoration: none;
 }
 .category-item:hover {
-    border: solid #BDBDBD .1rem;
+    box-shadow: 0px 0px 10px #009688;
+    border-radius: 5px;
+}
+.category-item a .item-header {
+    border-bottom: solid #BDBDBD .1rem;
 }
 
 .category-item-add {
@@ -305,6 +310,9 @@ hr {
 
     align-self: center;
 
+    background: #B2DFDB;
+}
+.category-item-add:hover {
     background: #009688;
 }
 .category-item-add a {
@@ -336,9 +344,6 @@ hr {
     font-size: 2rem;
 }
 
-.item-header {
-    border-bottom: solid #BDBDBD .1rem;
-}
 .item-header,
 .item-mods {
     padding: 0.5rem;
