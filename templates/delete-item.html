@@ -8,23 +8,35 @@
   <form method="POST" enctype="multipart/form-data" action="#">
     <div class="form-group row">
       <div class="col-sm-6">
-        <input type=text class="form-control" id="item_name" name="item_name" placeholder="{{item.name}}" readonly>
+        <input type=text class="form-control" id="item_name" name="item_name" value="{{item.name}}" placeholder="Item Name" readonly>
       </div>
       <div class="col-sm-6">
-        <input type=text class="form-control" id="item_price" name="item_price" placeholder="{{item.price}}" readonly>
+        <input type=text class="form-control" id="item_price" name="item_price" value="{{item.price}}" placeholder="$4.99" readonly>
       </div>
     </div>
     <div class="form-group row">
       <div class="col-sm-6">
-        <input type=text class="form-control" id="item_category" name="item_category" placeholder="{{item.category}}" readonly>
+        <input type=text class="form-control" id="item_category" name="item_category" value="{{item.category}}" placeholder="Category of the item" readonly>
       </div>
       <div class="col-sm-6">
-        <input type=text class="form-control" id="item_sub_category" name="item_sub_category" placeholder="{{item.sub_category}}" readonly>
+        <input type=text class="form-control" id="item_sub_category" name="item_sub_category" value="{{item.sub_category}}" placeholder="Sub Category of the item" readonly>
       </div>
     </div>
     <div class="form-group row">
       <div class="col-sm-12">
-        <textarea class="form-control" id="item_description" name="item_description" rows="3" placeholder="{{item.description}}" readonly></textarea>
+        <input type=text class="form-control" id="item_picture" name="item_picture" value="{{ item.picture }}" placeholder="URL address to item picture" readonly>
+      </div>
+    </div>
+    <div class="form-group row">
+      <div class="col-sm-12">
+        <input type=text class="form-control" id="item_link" name="item_link" value="{{ item.link }}" placeholder="URL address to item shop" readonly>
+      </div>
+    </div>
+    <div class="form-group row">
+      <div class="col-sm-12">
+        <textarea class="form-control" id="item_description" name="item_description" rows="3" placeholder="Description of the item" readonly>
+          {{item.description}}
+        </textarea>
       </div> 
     </div>
     <br><br>
