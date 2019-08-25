@@ -192,6 +192,13 @@ def API_All_Items():
     return jsonify(Item=[item.serialize for item in items])
 
 
+@app.route('/api/category/<int:main_cat_id>')
+def API_Category_Items(main_cat_id):
+    items = session.query(Item).filter_by(cat_id=main_cat_id).all()
+
+    return jsonify(Item=[item.serialize for item in items])
+
+
 @app.route('/api/item/<int:item_id>')
 def API_Item(item_id):
     item = session.query(Item).filter_by(id=item_id).one_or_none()
