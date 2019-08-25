@@ -61,12 +61,15 @@ def Index():
     sub_categories = session.query(Sub_Category).all()
     items = session.query(Item).order_by(Item.id.desc()).limit(10).all()
 
+    state = Generate_State_Token()
+
     return render_template(
         'index.html',
         title='Latest Items',
         main_categories=main_categories,
         sub_categories=sub_categories,
-        items=items
+        items=items,
+        state=state
     )
 
 @app.route('/show/<int:main_cat_id>')
