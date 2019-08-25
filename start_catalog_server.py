@@ -11,7 +11,8 @@ from flask import (
     url_for,
     make_response,
     render_template,
-    session as login_session
+    session as login_session,
+    jsonify
 )
 
 from database_setup import Base, User, Category, Sub_Category, Item
@@ -179,6 +180,16 @@ def Edit_Item(item_id):
         main_categories=main_categories,
         sub_categories=sub_categories
     )
+
+
+# API Functions
+
+
+@app.route('/api/all/items')
+def API_All_Items():
+    items = session.query(Item).all()
+
+    return jsonify(Item=[item.serialize for item in items])
 
 
 if __name__ == "__main__":
