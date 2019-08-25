@@ -17,8 +17,7 @@ from database_setup import Base, User, Category, Sub_Category, Item
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-from google.oauth2 import id_token
-from google.auth.transport import requests
+import google_authentication as gAuth
 
 app = Flask(__name__)
 
@@ -32,22 +31,9 @@ except IOError as ioe:
     sys.exit(1)
 
 
-# Get Secrets Data
-try:
-    SECRET_DATA = json.loads(open('client_secrets.json', 'r').read())['web']
-    CLIENT_ID = SECRET_DATA['client_id']
-    CLIENT_SECRET = SECRET_DATA['client_secret']
-
-    # Get the redirect uri from the file in the form of '/url'
-    CLIENT_REDIRECT = SECRET_DATA['redirect_uris'][0]
-    CLIENT_REDIRECT = '/%s' % (CLIENT_REDIRECT.split('/')[-1])
-except:
-    print('ERROR: Please download your \'client_secrets.json\' file from your \'https://console.developers.google.com\' project')
-
-
 # Add the client id to all templates
 try:
-    app.add_template_global(name='client_id', f=CLIENT_ID)
+    app.add_template_global(name='client_id', f=gAuth.CLIENT_ID)
 except:
     print('ERROR: Could not add jinja2 global client id variable')
 
