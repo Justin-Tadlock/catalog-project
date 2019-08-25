@@ -10,7 +10,8 @@ from flask import (
     redirect,
     url_for,
     make_response,
-    render_template
+    render_template,
+    session as login_session
 )
 
 from database_setup import Base, User, Category, Sub_Category, Item
@@ -116,6 +117,7 @@ def Delete_Category(main_cat_id):
         title="Item Catalog",
         category=main_category
     )
+
 
 @app.route('/editSubCategory/<int:main_cat_id>/<int:sub_cat_id>')
 def Edit_Sub_Category(main_cat_id, sub_cat_id):
