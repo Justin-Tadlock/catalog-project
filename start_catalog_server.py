@@ -185,6 +185,13 @@ def Edit_Item(item_id):
 # API Functions
 
 
+@app.route('/api/all/categories')
+def API_All_Categories():
+    categories = session.query(Category).all()
+
+    return jsonify(Category=[category.serialize for category in categories])
+
+
 @app.route('/api/all/items')
 def API_All_Items():
     items = session.query(Item).all()
