@@ -192,6 +192,13 @@ def API_All_Categories():
     return jsonify(Category=[category.serialize for category in categories])
 
 
+@app.route('/api/all/subCategories')
+def API_All_Sub_Categories():
+    categories = session.query(Sub_Category).all()
+
+    return jsonify(Category=[category.serialize for category in categories])
+
+
 @app.route('/api/all/items')
 def API_All_Items():
     items = session.query(Item).all()
