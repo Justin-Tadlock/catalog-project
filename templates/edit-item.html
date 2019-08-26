@@ -17,8 +17,8 @@
       <div class="col-sm-6">
         <select class="custom-select" id="item_category" name="item_category">
           <option selected>Choose Item Main Category...</option>
-          {% if main_categories %}
-          {% for category in main_categories %}
+          {% if categories %}
+          {% for category in categories %}
             {% if item.category == category.name %}  
               <option value="{{category.name}}" selected>{{category.name}}</option>
             {% else %}
@@ -38,8 +38,8 @@
         <select class="custom-select" id="item_sub_category" name="item_sub_category">
           <option selected>Choose Item Sub-Category...</option>
           
-          {% if main_categories %}
-          {% for main_cat in main_categories %}
+          {% if categories %}
+          {% for main_cat in categories %}
             <optgroup label="{{main_cat.name}}">
             {% if sub_categories %}
             {% for sub_cat in sub_categories %}
