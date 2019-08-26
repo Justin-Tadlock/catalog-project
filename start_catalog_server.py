@@ -284,9 +284,16 @@ def Edit_Item(item_id):
     )
 
 
-@app.route('/deleteItem/<int:item_id>')
+@app.route('/deleteItem/<int:item_id>', methods=['GET','POST'])
 def Delete_Item(item_id):
     item = session.query(Item).filter_by(id=item_id).one_or_none()
+
+    if request.method == 'POST':
+        if item:
+            session.delete(item)
+            session.commit()
+        
+        return redirect(url_for('Show_Category', main_cat_id=item.cat_id))
 
     return render_template(
         'delete-item.html', 
