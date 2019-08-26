@@ -10,6 +10,7 @@ from flask import (
     redirect,
     url_for,
     make_response,
+    flash,
     render_template,
     session as login_session,
     jsonify
@@ -141,7 +142,7 @@ def Edit_Category(main_cat_id):
             session.add(category)
             session.commit()
         else:
-            Log("You don't have the right access")
+            flash("You don't have the right access to edit %s" % (category.name))
 
         return redirect(url_for('Index'))
 
@@ -161,7 +162,7 @@ def Delete_Category(main_cat_id):
             session.delete(category)
             session.commit()
         else:
-            Log("You don't have the right access")
+            flash("You don't have the right access to delete %s" % (category.name))
 
         return redirect(url_for('Index'))
 
@@ -192,7 +193,7 @@ def Edit_Sub_Category(main_cat_id, sub_cat_id):
                 session.add(item)
                 session.commit()
         else:
-            Log("You don't have the right access")
+            flash("You don't have the right access to edit %s" % (sub_category.name))
         
         return redirect(url_for('Show_Category', main_cat_id=main_cat_id))
 
@@ -216,7 +217,7 @@ def Delete_Sub_Category(main_cat_id, sub_cat_id):
 
             session.commit()
         else:
-            Log("You don't have the right access")
+            flash("You don't have the right access to delet %s" % (sub_category.name))
 
         return redirect(url_for('Show_Category', main_cat_id=main_cat_id))
 
@@ -288,7 +289,7 @@ def Edit_Item(item_id):
             session.add(item)
             session.commit()
         else:
-            Log("You don't have the right access")
+            flash("You don't have the right access to edit %s" % (item.name))
 
         return redirect(url_for('Show_Category', main_cat_id=item.cat_id))
 
@@ -310,7 +311,7 @@ def Delete_Item(item_id):
             session.delete(item)
             session.commit()
         else:
-            Log("You don't have the right access")
+            flash("You don't have the right access to delete %s" % (item.name))
         
         return redirect(url_for('Show_Category', main_cat_id=item.cat_id))
 

@@ -195,6 +195,12 @@ hr {
 
     border-right: solid #BDBDBD 1px;
 }
+.right-panel ul {
+    margin: auto;
+    margin-top: 1rem;
+    list-style: none;
+}
+
 .section-divider {
     height: 5rem;
 
