@@ -29,12 +29,14 @@ class Category(Base):
 
     id = Column(Integer, primary_key=True)
     name = Column(String(100), nullable=False)
+    user_id = Column(Integer, ForeignKey('user.id'))
 
     @property
     def serialize(self):
         return {
             'id': self.id,
-            'name': self.name
+            'name': self.name,
+            'user_id': self.user_id
         }
 
 class Sub_Category(Base):
@@ -43,13 +45,15 @@ class Sub_Category(Base):
     id = Column(Integer, primary_key=True)
     name = Column(String(100), nullable=False)
     cat_id = Column(Integer, ForeignKey('category.id'))
+    user_id = Column(Integer, ForeignKey('user.id'))
 
     @property
     def serialize(self):
         return {
             'id': self.id,
             'name': self.name,
-            'cat_id': self.cat_id
+            'cat_id': self.cat_id,
+            'user_id': self.user_id
         }
 
 class Item(Base):
@@ -66,6 +70,7 @@ class Item(Base):
 
     cat_id = Column(Integer, ForeignKey('category.id'))
     sub_cat_id = Column(Integer, ForeignKey('sub_category.id'))
+    user_id = Column(Integer, ForeignKey('user.id'))
 
     @property
     def serialize(self):
@@ -79,7 +84,8 @@ class Item(Base):
             'link': self.link,
             'description': self.description,
             'cat_id': self.cat_id,
-            'sub_cat_id': self.sub_cat_id
+            'sub_cat_id': self.sub_cat_id,
+            'user_id': self.user_id
         }
 
 ### Insert at end of file ###

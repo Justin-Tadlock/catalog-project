@@ -133,13 +133,15 @@ def Edit_Category(main_cat_id):
     category = session.query(Category).filter_by(id=main_cat_id).one_or_none()
 
     if request.method == 'POST':
-        if category:
+        if category and login_session['user']['id'] == category.user_id:
             form = request.form
 
             category.name = form['category_name']
 
             session.add(category)
             session.commit()
+        else:
+            Log("You don't have the right access")
 
         return redirect(url_for('Index'))
 
@@ -155,9 +157,11 @@ def Delete_Category(main_cat_id):
     category = session.query(Category).filter_by(id=main_cat_id).one_or_none()
 
     if request.method == 'POST':
-        if category:
+        if category and login_session['user']['id'] == category.user_id:
             session.delete(category)
             session.commit()
+        else:
+            Log("You don't have the right access")
 
         return redirect(url_for('Index'))
 
@@ -173,7 +177,7 @@ def Edit_Sub_Category(main_cat_id, sub_cat_id):
     sub_category = session.query(Sub_Category).filter_by(id=sub_cat_id).one_or_none()
 
     if request.method == 'POST':
-        if sub_category:
+        if sub_category and login_session['user']['id'] == sub_category.user_id:
             form = request.form
 
             sub_category.name = form['category_name']
@@ -187,6 +191,8 @@ def Edit_Sub_Category(main_cat_id, sub_cat_id):
                 
                 session.add(item)
                 session.commit()
+        else:
+            Log("You don't have the right access")
         
         return redirect(url_for('Show_Category', main_cat_id=main_cat_id))
 
@@ -203,12 +209,14 @@ def Delete_Sub_Category(main_cat_id, sub_cat_id):
     sub_category = session.query(Sub_Category).filter_by(id=sub_cat_id).one_or_none()
 
     if request.method == 'POST':
-        if sub_category:
+        if sub_category and login_session['user']['id'] == sub_category.user_id:
             session.query(Item).filter_by(sub_cat_id=sub_cat_id).delete()
 
             session.query(Sub_Category).filter_by(id=sub_cat_id).delete()
 
             session.commit()
+        else:
+            Log("You don't have the right access")
 
         return redirect(url_for('Show_Category', main_cat_id=main_cat_id))
 
@@ -261,23 +269,26 @@ def Edit_Item(item_id):
     item = session.query(Item).filter_by(id=item_id).one_or_none()
     
     if request.method == 'POST':
-        form = request.form
+        if item and login_session['user']['id'] == item.user_id:
+            form = request.form
 
-        # Get the category names and IDs based on selected fields in the form.
-        cat_data = Get_Category_IDs(form)
+            # Get the category names and IDs based on selected fields in the form.
+            cat_data = Get_Category_IDs(form)
 
-        # Update the item's data.
-        item.name=form['item_name']
-        item.price=form['item_price']
-        item.category=cat_data['cat_name']
-        item.sub_category=cat_data['sub_cat_name']
-        item.description=form['item_description']
-        item.cat_id=cat_data['cat_id']
-        item.sub_cat_id=cat_data['sub_cat_id']
+            # Update the item's data.
+            item.name=form['item_name']
+            item.price=form['item_price']
+            item.category=cat_data['cat_name']
+            item.sub_category=cat_data['sub_cat_name']
+            item.description=form['item_description']
+            item.cat_id=cat_data['cat_id']
+            item.sub_cat_id=cat_data['sub_cat_id']
 
-        # Update the db
-        session.add(item)
-        session.commit()
+            # Update the db
+            session.add(item)
+            session.commit()
+        else:
+            Log("You don't have the right access")
 
         return redirect(url_for('Show_Category', main_cat_id=item.cat_id))
 
@@ -295,9 +306,11 @@ def Delete_Item(item_id):
     item = session.query(Item).filter_by(id=item_id).one_or_none()
 
     if request.method == 'POST':
-        if item:
+        if item and login_session['user']['id'] == item.user_id:
             session.delete(item)
             session.commit()
+        else:
+            Log("You don't have the right access")
         
         return redirect(url_for('Show_Category', main_cat_id=item.cat_id))
 
@@ -367,8 +380,6 @@ if __name__ == "__main__":
     engine = create_engine('sqlite:///item_catalog.db?check_same_thread=False')
     DBsession = sessionmaker(bind=engine)
     session = DBsession()
-        
-   
 
     app.debug = True
     app.run(host="0.0.0.0", port=5000)
