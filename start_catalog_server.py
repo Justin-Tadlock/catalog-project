@@ -24,6 +24,10 @@ import google_authentication as gAuth
 app = Flask(__name__)
 
 
+@app.context_processor
+def Update_Side_Nav():
+    return dict(client_id=gAuth.CLIENT_ID, categories=session.query(Category).all())
+
 def Log(msg, err=False):
     if not err and app.debug:
         print('INFO: %s' % (msg))
@@ -64,6 +68,7 @@ def Show_Category(main_cat_id):
     )
 
 @app.route('/addCategory')
+
 def Add_Category():
     return render_template(
         'add-category.html',
@@ -213,13 +218,7 @@ if __name__ == "__main__":
     DBsession = sessionmaker(bind=engine)
     session = DBsession()
         
-    # Add the client id to all templates
-    try:
-        app.add_template_global(name='client_id', f=gAuth.CLIENT_ID)
-        app.add_template_global(name='categories', f=session.query(Category).all())
-    except Exception as e:
-        print('ERROR: Could not add jinja2 global variables')
-        print(e)
+   
 
     app.debug = True
     app.run(host="0.0.0.0", port=5000)
