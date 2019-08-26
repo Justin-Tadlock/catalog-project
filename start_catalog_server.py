@@ -222,45 +222,24 @@ def Add_Item(main_id=None, sub_id=None):
         form = request.form
         print(form)
 
-        if form['item_category'] == 'Other':
-            item_category = form['item_category_other']
-            
-            category = session.query(Category).filter_by(name=item_category).all()
-            if category == []:
-                session.add(Category(name=item_category))
-                session.commit()
+        # Get the category names and IDs based on selected fields in the form.
+        cat_data = Get_Category_IDs(form)
 
-        else:
-            item_category = form['item_category']
-
-        cat_id = session.query(Category).filter_by(name=item_category).one().id
-
-        if form['item_sub_category'] == 'Other':
-            item_sub_category = form['item_sub_category_other']
-
-            new_sub_cat = Sub_Category(name=item_sub_category, cat_id=cat_id)
-
-            session.add(new_sub_cat)
-            session.commit()
-        else:
-            item_sub_category = form['item_sub_category']
-        
-        sub_cat_id = session.query(Sub_Category).filter_by(name=item_sub_category, cat_id=cat_id).one().id
-
+        # Add the item to the db
         session.add(
             Item(
                 name=form['item_name'],
                 price=form['item_price'],
-                category=item_category,
-                sub_category=item_sub_category,
+                category=cat_data['cat_name'],
+                sub_category=cat_data['sub_cat_name'],
                 description=form['item_description'],
-                cat_id=cat_id,
-                sub_cat_id=sub_cat_id
+                cat_id=cat_data['cat_id'],
+                sub_cat_id=cat_data['sub_cat_id']
             )
         )
         session.commit()
 
-        return redirect(url_for('Show_Category', main_cat_id=cat_id))
+        return redirect(url_for('Show_Category', main_cat_id=cat_data['cat_id']))
 
     sub_categories = session.query(Sub_Category).all()
 
