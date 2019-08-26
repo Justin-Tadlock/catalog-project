@@ -87,14 +87,25 @@ def Add_Category():
     )
 
 
-@app.route('/editCategory/<int:main_cat_id>')
+@app.route('/editCategory/<int:main_cat_id>', methods=['GET','POST'])
 def Edit_Category(main_cat_id):
-    main_category = session.query(Category).filter_by(id=main_cat_id).one_or_none()
+    category = session.query(Category).filter_by(id=main_cat_id).one_or_none()
+
+    if request.method == 'POST':
+        if category:
+            form = request.form
+
+            category.name = form['category_name']
+
+            session.add(category)
+            session.commit()
+
+        return redirect(url_for('Index'))
 
     return render_template(
         'edit-category.html',
         title="Item Catalog",
-        category=main_category
+        category=category
     )
 
 
