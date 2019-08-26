@@ -84,6 +84,7 @@ def Show_Category(main_cat_id):
     return render_template(
         'show-category.html',
         title='Item Catalog - %s' % (main_category.name),
+        back_url=url_for('Index'),
         main_category=main_category,
         main_categories=main_categories,
         sub_categories=sub_categories,
@@ -94,7 +95,8 @@ def Show_Category(main_cat_id):
 def Add_Category():
     return render_template(
         'add-category.html',
-        title="Item Catalog"
+        title="Item Catalog",
+        back_url=url_for('Index'),
     )
 
 
@@ -105,6 +107,7 @@ def Edit_Category(main_cat_id):
     return render_template(
         'edit-category.html',
         title="Item Catalog",
+        back_url=url_for('Index'),
         category=main_category
     )
 
@@ -116,6 +119,7 @@ def Delete_Category(main_cat_id):
     return render_template(
         'delete-category.html',
         title="Item Catalog",
+        back_url=url_for('Index'),
         category=main_category
     )
 
@@ -127,6 +131,7 @@ def Edit_Sub_Category(main_cat_id, sub_cat_id):
     return render_template(
         'edit-category.html',
         title="Item Catalog",
+        back_url=url_for('Show_Category', main_cat_id=main_cat_id),
         category=sub_category,
         main_cat_id=main_cat_id
     )
@@ -139,6 +144,7 @@ def Delete_Sub_Category(main_cat_id, sub_cat_id):
     return render_template(
         'delete-category.html',
         title="Item Catalog",
+        back_url=url_for('Show_Category', main_cat_id=main_cat_id),
         category=sub_category,
         main_cat_id=main_cat_id
     )
@@ -153,6 +159,7 @@ def Add_Item(main_id=None, sub_id=None):
 
     return render_template(
         'add-item.html', 
+        back_url=url_for('Show_Category', main_cat_id=main_id),
         main_categories=main_categories, 
         main_id=main_id,
         sub_categories=sub_categories,
@@ -165,6 +172,7 @@ def Delete_Item(item_id):
 
     return render_template(
         'delete-item.html', 
+        back_url=url_for('Show_Category', main_cat_id=item.cat_id),
         item=item
     )
 
@@ -176,6 +184,7 @@ def Edit_Item(item_id):
 
     return render_template(
         'edit-item.html', 
+        back_url=url_for('Show_Category', main_cat_id=item.cat_id),
         item=item,
         main_categories=main_categories,
         sub_categories=sub_categories
