@@ -42,9 +42,11 @@ def Generate_State_Token():
 
 
 def Get_Category_IDs(form):
+    # Get the item category string
     if form['item_category'] == 'Other':
         item_category = form['item_category_other']
         
+        # Determine if we need to add the category to the db
         category = session.query(Category).filter_by(name=item_category).all()
         if category == []:
             session.add(Category(name=item_category))
@@ -53,18 +55,22 @@ def Get_Category_IDs(form):
     else:
         item_category = form['item_category']
 
+    # Get the cat_id of the category object from the db
     cat_id = session.query(Category).filter_by(name=item_category).one().id
 
+    # Get the item sub category string
     if form['item_sub_category'] == 'Other':
         item_sub_category = form['item_sub_category_other']
 
-        new_sub_cat = Sub_Category(name=item_sub_category, cat_id=cat_id)
-
-        session.add(new_sub_cat)
-        session.commit()
+        # Determine if we need to add the category to the db
+        sub_category = session.query(Sub_Category).filter_by(name=item_sub_category).all()
+        if sub_category == []:
+            session.add(Sub_Category(name=item_sub_category, cat_id=cat_id))
+            session.commit()
     else:
         item_sub_category = form['item_sub_category']
     
+    # Get the sub_cat_id of the category object from the db
     sub_cat_id = session.query(Sub_Category).filter_by(name=item_sub_category, cat_id=cat_id).one().id
 
     return {
