@@ -118,7 +118,7 @@ def Delete_Category(main_cat_id):
             session.delete(category)
             session.commit()
 
-            return redirect(url_for('Index'))
+        return redirect(url_for('Index'))
 
     return render_template(
         'delete-category.html',
