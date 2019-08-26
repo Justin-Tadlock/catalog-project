@@ -220,7 +220,6 @@ def Delete_Sub_Category(main_cat_id, sub_cat_id):
 def Add_Item(main_id=None, sub_id=None):
     if request.method == 'POST':
         form = request.form
-        print(form)
 
         # Get the category names and IDs based on selected fields in the form.
         cat_data = Get_Category_IDs(form)
