@@ -157,6 +157,10 @@ hr {
 
     justify-content: flex-start;
 }
+.nav-left a:hover {
+    color: #B2DFDB;
+    text-decoration: none;
+}
 .nav-center {
     margin:auto;
 }
