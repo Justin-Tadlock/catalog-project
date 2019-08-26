@@ -12,6 +12,7 @@ To run the VM, you must have the following:
 * [VirtualBox](https://www.virtualbox.org/wiki/Downloads)
 * [Vagrant](https://www.vagrantup.com/)
 * Python3 is installed on the Vagrant VM
+* openssl installed for generating a certificate for HTTPS.
 
 For more information on the base setup, visit the [Udacity VM Setup](https://github.com/udacity/fullstack-nanodegree-vm)
 
@@ -40,6 +41,13 @@ For more information on the base setup, visit the [Udacity VM Setup](https://git
 3. Save the file and close the file.
 4. You are done with this step
 
+#### You will need to generate your own self-signed certificates to eliminate security warnings
+1. Open cmd prompt/terminal in your project's directory and run
+```
+openssl req -x509 -newkey rsa:4096 -nodes -out cert.pem -keyout key.pem -days 365
+```
+2. Answer the questions that are required for generating the certificate
+3. You're done.
 
 ## Running the VM
 
@@ -111,3 +119,4 @@ Now you will be able to browse around the application project and utilize all th
 ## Acknowledgments
 
 * [Udacity VM Setup](https://github.com/udacity/fullstack-nanodegree-vm) - for the initial setup of the Vagrant VM.
+* [HTTPS Certificates](https://blog.miguelgrinberg.com/post/running-your-flask-application-over-https)
