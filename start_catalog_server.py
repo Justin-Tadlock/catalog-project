@@ -41,6 +41,40 @@ def Generate_State_Token():
     login_session['state'] = state
 
 
+def Get_Category_IDs(form):
+    if form['item_category'] == 'Other':
+        item_category = form['item_category_other']
+        
+        category = session.query(Category).filter_by(name=item_category).all()
+        if category == []:
+            session.add(Category(name=item_category))
+            session.commit()
+
+    else:
+        item_category = form['item_category']
+
+    cat_id = session.query(Category).filter_by(name=item_category).one().id
+
+    if form['item_sub_category'] == 'Other':
+        item_sub_category = form['item_sub_category_other']
+
+        new_sub_cat = Sub_Category(name=item_sub_category, cat_id=cat_id)
+
+        session.add(new_sub_cat)
+        session.commit()
+    else:
+        item_sub_category = form['item_sub_category']
+    
+    sub_cat_id = session.query(Sub_Category).filter_by(name=item_sub_category, cat_id=cat_id).one().id
+
+    return {
+        'cat_id': cat_id,
+        'cat_name': item_category,
+        'sub_cat_id': sub_cat_id,
+        'sub_cat_name': item_sub_category
+    }
+
+
 @app.route('/')
 def Index():
     items = session.query(Item).order_by(Item.id.desc()).limit(10).all()
@@ -238,16 +272,36 @@ def Add_Item(main_id=None, sub_id=None):
     )
 
 
-@app.route('/editItem/<int:item_id>')
+@app.route('/editItem/<int:item_id>', methods=['GET','POST'])
 def Edit_Item(item_id):
     item = session.query(Item).filter_by(id=item_id).one_or_none()
-    main_categories = session.query(Category).all()
+    
+    if request.method == 'POST':
+        form = request.form
+
+        # Get the category names and IDs based on selected fields in the form.
+        cat_data = Get_Category_IDs(form)
+
+        # Update the item's data.
+        item.name=form['item_name']
+        item.price=form['item_price']
+        item.category=cat_data['cat_name']
+        item.sub_category=cat_data['sub_cat_name']
+        item.description=form['item_description']
+        item.cat_id=cat_data['cat_id']
+        item.sub_cat_id=cat_data['sub_cat_id']
+
+        # Update the db
+        session.add(item)
+        session.commit()
+
+        return redirect(url_for('Show_Category', main_cat_id=item.cat_id))
+
     sub_categories = session.query(Sub_Category).all()
 
     return render_template(
         'edit-item.html', 
         item=item,
-        main_categories=main_categories,
         sub_categories=sub_categories
     )
 
