@@ -1,53 +1,55 @@
-{% extends "base.html" %}
-    
-{% block content %}
-<div class="form-container">
-  <h1 class="section-divider">Delete Item</h1>
-  <br>
-  <h5>Are you sure you want to delete the following item?</h5>
-  <form method="POST" enctype="multipart/form-data" action="#">
-    <div class="form-group row">
-      <div class="col-sm-6">
-        <input type=text class="form-control" id="item_name" name="item_name" value="{{item.name}}" placeholder="Item Name" readonly>
+{% extends "category-list.html" %}
+
+{% block sub_categories %}
+<div class="sub-categories">
+  <div class="form-container">
+    <h1 class="section-divider">Delete Item</h1>
+    <br>
+    <h5>Are you sure you want to delete the following item?</h5>
+    <form method="POST" enctype="multipart/form-data" action="#">
+      <div class="form-group row">
+        <div class="col-sm-6">
+          <input type=text class="form-control" id="item_name" name="item_name" value="{{item.name}}" placeholder="Item Name" readonly>
+        </div>
+        <div class="col-sm-6">
+          <input type=text class="form-control" id="item_price" name="item_price" value="{{item.price}}" placeholder="$4.99" readonly>
+        </div>
       </div>
-      <div class="col-sm-6">
-        <input type=text class="form-control" id="item_price" name="item_price" value="{{item.price}}" placeholder="$4.99" readonly>
+      <div class="form-group row">
+        <div class="col-sm-6">
+          <input type=text class="form-control" id="item_category" name="item_category" value="{{item.category}}" placeholder="Category of the item" readonly>
+        </div>
+        <div class="col-sm-6">
+          <input type=text class="form-control" id="item_sub_category" name="item_sub_category" value="{{item.sub_category}}" placeholder="Sub Category of the item" readonly>
+        </div>
       </div>
-    </div>
-    <div class="form-group row">
-      <div class="col-sm-6">
-        <input type=text class="form-control" id="item_category" name="item_category" value="{{item.category}}" placeholder="Category of the item" readonly>
+      <div class="form-group row">
+        <div class="col-sm-12">
+          <input type=text class="form-control" id="item_picture" name="item_picture" value="{{ item.picture }}" placeholder="URL address to item picture" readonly>
+        </div>
       </div>
-      <div class="col-sm-6">
-        <input type=text class="form-control" id="item_sub_category" name="item_sub_category" value="{{item.sub_category}}" placeholder="Sub Category of the item" readonly>
+      <div class="form-group row">
+        <div class="col-sm-12">
+          <input type=text class="form-control" id="item_link" name="item_link" value="{{ item.link }}" placeholder="URL address to item shop" readonly>
+        </div>
       </div>
-    </div>
-    <div class="form-group row">
-      <div class="col-sm-12">
-        <input type=text class="form-control" id="item_picture" name="item_picture" value="{{ item.picture }}" placeholder="URL address to item picture" readonly>
+      <div class="form-group row">
+        <div class="col-sm-12">
+          <textarea class="form-control" id="item_description" name="item_description" rows="3" placeholder="Description of the item" readonly>
+            {{item.description}}
+          </textarea>
+        </div> 
       </div>
-    </div>
-    <div class="form-group row">
-      <div class="col-sm-12">
-        <input type=text class="form-control" id="item_link" name="item_link" value="{{ item.link }}" placeholder="URL address to item shop" readonly>
+      <br><br>
+      <div class="text-center">
+        <input type=submit class="btn btn-primary" value="Confirm">&nbsp;
+        {% if main_id %}
+          <input type=button class="btn btn-danger" onclick="window.location.href = '{{ url_for('Show_Category', main_cat_id=main_id) }}';" value="Cancel">
+        {% else %}
+          <input type=button class="btn btn-danger" onclick="window.location.href = '{{ url_for('Index') }}';" value="Cancel">
+        {% endif %}
       </div>
-    </div>
-    <div class="form-group row">
-      <div class="col-sm-12">
-        <textarea class="form-control" id="item_description" name="item_description" rows="3" placeholder="Description of the item" readonly>
-          {{item.description}}
-        </textarea>
-      </div> 
-    </div>
-    <br><br>
-    <div class="text-center">
-      <input type=submit class="btn btn-primary" value="Confirm">&nbsp;
-      {% if main_id %}
-        <input type=button class="btn btn-danger" onclick="window.location.href = '{{ url_for('Show_Category', main_cat_id=main_id) }}';" value="Cancel">
-      {% else %}
-        <input type=button class="btn btn-danger" onclick="window.location.href = '{{ url_for('Index') }}';" value="Cancel">
-      {% endif %}
-    </div>
-  </form>
+    </form>
+  </div>
 </div>
 {% endblock %}

@@ -1,92 +1,94 @@
-{% extends "base.html" %}
+{% extends "category-list.html" %}
+
+{% block sub_categories %}
+<div class="sub-categories">
+  <div class="form-container">
+    <h1 class="section-divider">Edit Item</h1>
     
-{% block content %}
-<div class="form-container">
-  <h1 class="section-divider">Edit Item</h1>
-  <br>
-  <form method="POST" enctype="multipart/form-data" action="#">
-    <div class="form-group row">
-      <div class="col-sm-6">
-        <input type=text class="form-control" id="item_name" name="item_name" value="{{item.name}}" placeholder="Item Name">
+    <form method="POST" enctype="multipart/form-data" action="#">
+      <div class="form-group row">
+        <div class="col-sm-6">
+          <input type=text class="form-control" id="item_name" name="item_name" value="{{item.name}}" placeholder="Item Name">
+        </div>
+        <div class="col-sm-6">
+          <input type=text class="form-control" id="item_price" name="item_price" value="{{item.price}}" placeholder="$4.99">
+        </div>
       </div>
-      <div class="col-sm-6">
-        <input type=text class="form-control" id="item_price" name="item_price" value="{{item.price}}" placeholder="$4.99">
-      </div>
-    </div>
-    <div class="form-group row">
-      <div class="col-sm-6">
-        <select class="custom-select" id="item_category" name="item_category">
-          <option selected>Choose Item Main Category...</option>
-          {% if main_categories %}
-          {% for category in main_categories %}
-            {% if item.category == category.name %}  
-              <option value="{{category.name}}" selected>{{category.name}}</option>
-            {% else %}
-              <option value="{{category.name}}">{{category.name}}</option>
-            {% endif %}
-          {% endfor %}
-          {% endif %}
-          <option value="Other">Other</option>
-        </select>
-      </div>
-      <div class="col-sm-6">
-        <input type=text class="form-control" id="item_category_other" name="item_category_other" placeholder="If other, type it here">
-      </div>
-    </div>
-    <div class="form-group row">
-      <div class="col-sm-6">
-        <select class="custom-select" id="item_sub_category" name="item_sub_category">
-          <option selected>Choose Item Sub-Category...</option>
-          
-          {% if main_categories %}
-          {% for main_cat in main_categories %}
-            <optgroup label="{{main_cat.name}}">
-            {% if sub_categories %}
-            {% for sub_cat in sub_categories %}
-              {% if sub_cat.cat_id == main_cat.id and item.sub_category == sub_cat.name %}  
-                <option value="{{sub_cat.name}}" selected>{{sub_cat.name}}</option>
-              {% elif sub_cat.cat_id == main_cat.id %}
-                <option value="{{sub_cat.name}}">{{sub_cat.name}}</option>
+      <div class="form-group row">
+        <div class="col-sm-6">
+          <select class="custom-select" id="item_category" name="item_category">
+            <option selected>Choose Item Main Category...</option>
+            {% if main_categories %}
+            {% for category in main_categories %}
+              {% if item.category == category.name %}  
+                <option value="{{category.name}}" selected>{{category.name}}</option>
+              {% else %}
+                <option value="{{category.name}}">{{category.name}}</option>
               {% endif %}
             {% endfor %}
             {% endif %}
-            </optgroup>
-          {% endfor %}
-          {% endif %}
-          
-          <option value="Other">Other</option>
-        </select>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+        <div class="col-sm-6">
+          <input type=text class="form-control" id="item_category_other" name="item_category_other" placeholder="If other, type it here">
+        </div>
       </div>
-      <div class="col-sm-6">
-        <input type=text class="form-control" id="item_sub_category_other" name="item_sub_category_other" placeholder="If other, type it here">
+      <div class="form-group row">
+        <div class="col-sm-6">
+          <select class="custom-select" id="item_sub_category" name="item_sub_category">
+            <option selected>Choose Item Sub-Category...</option>
+            
+            {% if main_categories %}
+            {% for main_cat in main_categories %}
+              <optgroup label="{{main_cat.name}}">
+              {% if sub_categories %}
+              {% for sub_cat in sub_categories %}
+                {% if sub_cat.cat_id == main_cat.id and item.sub_category == sub_cat.name %}  
+                  <option value="{{sub_cat.name}}" selected>{{sub_cat.name}}</option>
+                {% elif sub_cat.cat_id == main_cat.id %}
+                  <option value="{{sub_cat.name}}">{{sub_cat.name}}</option>
+                {% endif %}
+              {% endfor %}
+              {% endif %}
+              </optgroup>
+            {% endfor %}
+            {% endif %}
+            
+            <option value="Other">Other</option>
+          </select>
+        </div>
+        <div class="col-sm-6">
+          <input type=text class="form-control" id="item_sub_category_other" name="item_sub_category_other" placeholder="If other, type it here">
+        </div>
       </div>
-    </div>
-    <div class="form-group row">
-      <div class="col-sm-12">
-        <input type=text class="form-control" id="item_picture" name="item_picture" value="{{ item.picture}}" placeholder="URL address to item picture">
+      <div class="form-group row">
+        <div class="col-sm-12">
+          <input type=text class="form-control" id="item_picture" name="item_picture" value="{{ item.picture}}" placeholder="URL address to item picture">
+        </div>
       </div>
-    </div>
-    <div class="form-group row">
-      <div class="col-sm-12">
-        <input type=text class="form-control" id="item_link" name="item_link" value="{{ item.link }}" placeholder="URL address to item shop">
+      <div class="form-group row">
+        <div class="col-sm-12">
+          <input type=text class="form-control" id="item_link" name="item_link" value="{{ item.link }}" placeholder="URL address to item shop">
+        </div>
       </div>
-    </div>
-    <div class="form-group row">
-      <div class="col-sm-12">
-        <textarea class="form-control" id="item_description" name="item_description" rows="3" placeholder="Description of the item">
-          {{item.description}}
-        </textarea>
-      </div> 
-    </div>
-    <br><br>
-    <div class="text-center">
-      <input type=submit class="btn btn-primary" value="Confirm">&nbsp;
-      {% if main_id %}
-        <input type=button class="btn btn-danger" onclick="window.location.href = '{{ url_for('Show_Category', main_cat_id=main_id) }}';" value="Cancel">
-      {% else %}
-        <input type=button class="btn btn-danger" onclick="window.location.href = '{{ url_for('Index') }}';" value="Cancel">
-      {% endif %}
-    </div>
-  </form>
+      <div class="form-group row">
+        <div class="col-sm-12">
+          <textarea class="form-control" id="item_description" name="item_description" rows="3" placeholder="Description of the item">
+            {{item.description}}
+          </textarea>
+        </div> 
+      </div>
+      <br><br>
+      <div class="text-center">
+        <input type=submit class="btn btn-primary" value="Confirm">&nbsp;
+        {% if main_id %}
+          <input type=button class="btn btn-danger" onclick="window.location.href = '{{ url_for('Show_Category', main_cat_id=main_id) }}';" value="Cancel">
+        {% else %}
+          <input type=button class="btn btn-danger" onclick="window.location.href = '{{ url_for('Index') }}';" value="Cancel">
+        {% endif %}
+      </div>
+    </form>
+  </div>
 </div>
 {% endblock %}
