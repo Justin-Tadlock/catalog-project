@@ -1,22 +1,20 @@
-{% extends "category-list.html" %}
+{% extends "base.html" %}
 
-{% block sub_categories %}
-<div class="sub-categories">
-  <div class="form-container">
-    <h1 class="section-divider">Add Category</h1>
-    <br>
-    <form method="POST" enctype="multipart/form-data" action="#">
-      <div class="form-group row">
-        <div class="col-sm-12">
-          <input type=text class="form-control" id="category_name" name="category_name" placeholder="Name of Category">
-        </div>
+{% block right_panel %}
+<div class="form-container">
+  <h1 class="section-divider">Add Category</h1>
+  <br>
+  <form method="POST" enctype="multipart/form-data" action="#">
+    <div class="form-group row">
+      <div class="col-sm-12">
+        <input type=text class="form-control" id="category_name" name="category_name" placeholder="Name of Category">
       </div>
-      <br><br>
-      <div class="text-center">
-        <input type=submit class="btn btn-primary" value="Confirm">&nbsp;
-        <input type=button class="btn btn-danger" onclick="window.location.href = '/';" value="Cancel">
-      </div>
-    </form>
-  </div>
+    </div>
+    <br><br>
+    <div class="text-center">
+      <input type=submit class="btn btn-primary" value="Confirm">&nbsp;
+      <input type=button class="btn btn-danger" onclick="window.location.href = '/';" value="Cancel">
+    </div>
+  </form>
 </div>
 {% endblock %}

@@ -23,27 +23,6 @@ import google_authentication as gAuth
 
 app = Flask(__name__)
 
-# Add the secret key for the app
-try:
-    app.secret_key = open('secret_key.txt', 'r').read()
-except IOError as ioe:
-    print('Error: Please create a \'secret_key.txt\' file within the app\'s directory')
-    print(ioe.pgerror)
-    print(ioe.diag.message_detail)
-    sys.exit(1)
-
-
-# Add the client id to all templates
-try:
-    app.add_template_global(name='client_id', f=gAuth.CLIENT_ID)
-except:
-    print('ERROR: Could not add jinja2 global client id variable')
-
-# Adding db functionality for CRUD operations
-engine = create_engine('sqlite:///item_catalog.db?check_same_thread=False')
-DBsession = sessionmaker(bind=engine)
-session = DBsession()
-
 
 def Log(msg, err=False):
     if not err and app.debug:
@@ -59,25 +38,20 @@ def Generate_State_Token():
 
 @app.route('/')
 def Index():
-    main_categories = session.query(Category).all()
-    sub_categories = session.query(Sub_Category).all()
     items = session.query(Item).order_by(Item.id.desc()).limit(10).all()
-
     state = Generate_State_Token()
 
     return render_template(
         'index.html',
         title='Latest Items',
-        main_categories=main_categories,
-        sub_categories=sub_categories,
         items=items,
         state=state
     )
 
+
 @app.route('/show/<int:main_cat_id>')
 def Show_Category(main_cat_id):
     main_category = session.query(Category).filter_by(id=main_cat_id).one_or_none()
-    main_categories = session.query(Category).all()
     sub_categories = session.query(Sub_Category).filter_by(cat_id=main_cat_id).all()
     items = session.query(Item).filter_by(cat_id=main_cat_id).all()
 
@@ -86,7 +60,6 @@ def Show_Category(main_cat_id):
         title='Item Catalog - %s' % (main_category.name),
         back_url=url_for('Index'),
         main_category=main_category,
-        main_categories=main_categories,
         sub_categories=sub_categories,
         items=items
     )
@@ -154,15 +127,15 @@ def Delete_Sub_Category(main_cat_id, sub_cat_id):
 @app.route('/addItem/<int:main_id>')
 @app.route('/addItem')
 def Add_Item(main_id=None, sub_id=None):
-    main_categories = session.query(Category).all()
-    sub_categories = session.query(Sub_Category).all()
+    if main_id:
+        back_url = url_for('Show_Category', main_cat_id=main_id)
+    else:
+        back_url = None
 
     return render_template(
         'add-item.html', 
-        back_url=url_for('Show_Category', main_cat_id=main_id),
-        main_categories=main_categories, 
+        back_url=back_url,
         main_id=main_id,
-        sub_categories=sub_categories,
         sub_id=sub_id
     )
 
@@ -238,5 +211,27 @@ def API_Item(item_id):
 
 
 if __name__ == "__main__":
+    # Add the secret key for the app
+    try:
+        app.secret_key = open('secret_key.txt', 'r').read()
+    except IOError as ioe:
+        print('Error: Please create a \'secret_key.txt\' file within the app\'s directory')
+        print(ioe.pgerror)
+        print(ioe.diag.message_detail)
+        sys.exit(1)
+
+    # Adding db functionality for CRUD operations
+    engine = create_engine('sqlite:///item_catalog.db?check_same_thread=False')
+    DBsession = sessionmaker(bind=engine)
+    session = DBsession()
+        
+    # Add the client id to all templates
+    try:
+        app.add_template_global(name='client_id', f=gAuth.CLIENT_ID)
+        app.add_template_global(name='categories', f=session.query(Category).all())
+    except Exception as e:
+        print('ERROR: Could not add jinja2 global variables')
+        print(e)
+
     app.debug = True
     app.run(host="0.0.0.0", port=5000)

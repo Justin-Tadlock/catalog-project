@@ -1,31 +1,29 @@
-{% extends "category-list.html" %}
+{% extends "base.html" %}
 
-{% block sub_categories %}
-<div class="sub-categories">
-  <div class="form-container">
-    <h1 class="section-divider">Delete Item</h1>
-    <br>
-    <h5>
-      Are you sure you want to delete the following item?
-      <br><br>
-      <i>WARNING: This will also delete <u>all</u> related items!</i>
-    </h5>
-    <form method="POST" enctype="multipart/form-data" action="#">
-      <div class="form-group row">
-        <div class="col-sm-12">
-          <input type=text class="form-control" id="category_name" name="category_name" placeholder="{{category.name}}" readonly>
-        </div>
+{% block right_panel %}
+<div class="form-container">
+  <h1 class="section-divider">Delete Item</h1>
+  <br>
+  <h5>
+    Are you sure you want to delete the following item?
+    <br><br>
+    <i>WARNING: This will also delete <u>all</u> related items!</i>
+  </h5>
+  <form method="POST" enctype="multipart/form-data" action="#">
+    <div class="form-group row">
+      <div class="col-sm-12">
+        <input type=text class="form-control" id="category_name" name="category_name" placeholder="{{category.name}}" readonly>
       </div>
-      <br><br>
-      <div class="text-center">
-        <input type=submit class="btn btn-primary" value="Confirm">&nbsp;
-        {% if main_cat_id %}
-          <input type=button class="btn btn-danger" onclick="window.location.href = '{{ url_for('Show_Category', main_cat_id=main_cat_id) }}';" value="Cancel">
-        {% else %}
-          <input type=button class="btn btn-danger" onclick="window.location.href = '/';" value="Cancel">
-        {% endif %}
-      </div>
-    </form>
-  </div>
+    </div>
+    <br><br>
+    <div class="text-center">
+      <input type=submit class="btn btn-primary" value="Confirm">&nbsp;
+      {% if main_cat_id %}
+        <input type=button class="btn btn-danger" onclick="window.location.href = '{{ url_for('Show_Category', main_cat_id=main_cat_id) }}';" value="Cancel">
+      {% else %}
+        <input type=button class="btn btn-danger" onclick="window.location.href = '/';" value="Cancel">
+      {% endif %}
+    </div>
+  </form>
 </div>
 {% endblock %}

@@ -1,8 +1,8 @@
-{% extends "category-list.html" %}
+{% extends "base.html" %}
 
-{% block sub_categories %}
-<div class="sub-categories">
-  {% if sub_categories %}
+{% block right_panel %}
+<div class="right-panel">
+  {% if items %}
   <div class="sub-category">
     <div class="category-list">
       {% for item in items %}
