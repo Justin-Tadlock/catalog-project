@@ -67,9 +67,20 @@ def Show_Category(main_cat_id):
         items=items
     )
 
-@app.route('/addCategory')
 
+@app.route('/addCategory', methods=['GET', 'POST'])
 def Add_Category():
+    if request.method == 'POST':
+        form = request.form
+
+        new_cat = Category(name=form['category_name'])
+        session.add(new_cat)
+        session.commit()
+
+        Update_Side_Nav()
+
+        return redirect(url_for('Index'))
+
     return render_template(
         'add-category.html',
         title="Item Catalog",
