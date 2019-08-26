@@ -238,16 +238,6 @@ def Add_Item(main_id=None, sub_id=None):
     )
 
 
-@app.route('/deleteItem/<int:item_id>')
-def Delete_Item(item_id):
-    item = session.query(Item).filter_by(id=item_id).one_or_none()
-
-    return render_template(
-        'delete-item.html', 
-        item=item
-    )
-
-
 @app.route('/editItem/<int:item_id>')
 def Edit_Item(item_id):
     item = session.query(Item).filter_by(id=item_id).one_or_none()
@@ -259,6 +249,16 @@ def Edit_Item(item_id):
         item=item,
         main_categories=main_categories,
         sub_categories=sub_categories
+    )
+
+
+@app.route('/deleteItem/<int:item_id>')
+def Delete_Item(item_id):
+    item = session.query(Item).filter_by(id=item_id).one_or_none()
+
+    return render_template(
+        'delete-item.html', 
+        item=item
     )
 
 
