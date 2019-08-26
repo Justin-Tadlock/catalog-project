@@ -24,8 +24,11 @@
         <!-- Load jQuery -->
         <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 
-        <link rel=stylesheet type=text/css href="{{ url_for('static', filename='styles.css') }}">
+        <!-- Load Google Sign-In -->
+        <script src="https://apis.google.com/js/platform.js" async defer></script>
 
+        <!-- Load My Styles and Scripts -->
+        <link rel=stylesheet type=text/css href="{{ url_for('static', filename='styles.css') }}">
         <script src="{{ url_for('static', filename='scripts.js') }}"></script>
     </head>
     <body>
@@ -39,9 +42,19 @@
             {{ title }}
         </div>
         <div class="nav-right">
-            <a href="#">
-            Google Sign-In
-            </a>
+            <div class="sign-in">
+                <div class="g-signin2" 
+                    data-width="220"
+                    data-height="40" 
+                    data-longtitle="true"
+                    data-onsuccess="onSignIn" 
+                    data-theme="dark"
+                    data-approvalprompt="force">
+                </div>
+            </div>
+            <div class="sign-out">
+                <a href="#" onclick="signOut();">Sign out</a>
+            </div>
         </div>
         {% endblock %}
         </nav>

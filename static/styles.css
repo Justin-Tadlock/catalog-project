@@ -170,6 +170,13 @@ hr {
     justify-content: flex-end;
 }
 
+.sign-in {
+    display: block;
+}
+.sign-out {
+    display: none;
+}
+
 
 .content {
     margin: auto;
