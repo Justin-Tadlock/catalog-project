@@ -127,9 +127,27 @@ def Delete_Category(main_cat_id):
     )
 
 
-@app.route('/editSubCategory/<int:main_cat_id>/<int:sub_cat_id>')
+@app.route('/editSubCategory/<int:main_cat_id>/<int:sub_cat_id>', methods=['GET','POST'])
 def Edit_Sub_Category(main_cat_id, sub_cat_id):
     sub_category = session.query(Sub_Category).filter_by(id=sub_cat_id).one_or_none()
+
+    if request.method == 'POST':
+        if sub_category:
+            form = request.form
+
+            sub_category.name = form['category_name']
+
+            session.add(sub_category)
+            session.commit()
+
+            items = session.query(Item).filter_by(sub_cat_id=sub_category.id).all()
+            for item in items:
+                item.sub_category = form['category_name']
+                
+                session.add(item)
+                session.commit()
+        
+        return redirect(url_for('Show_Category', main_cat_id=main_cat_id))
 
     return render_template(
         'edit-category.html',
