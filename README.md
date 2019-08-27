@@ -63,7 +63,7 @@ vagrant init
 vagrant up
 vagrant ssh
 ```
-7. Once the vagrant VM is running, navigate to the **auth-playground** app directory
+7. Once the vagrant VM is running, navigate to the **catalog-project** app directory
 ``` 
 cd /vagrant/catalog-project 
 ```
