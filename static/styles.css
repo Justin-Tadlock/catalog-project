@@ -16,7 +16,7 @@
 * {
     margin: 0;
     padding: 0;
-    font-size: 14px;
+    font-size: 16px;
     color: #212121;
 }
 
@@ -178,11 +178,21 @@ hr {
 .sign-out {
     display: none;
 }
+.sign-out a {
+    color: #FFFFFF;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1rem;
+}
+.sign-out a:hover {
+    color: #B2DFDB;
+    text-decoration: none;
+}
 
 
 .content {
     margin: auto;
-    margin-top: 6rem;
+    margin-top: 5rem;
 
     width: 90%;
     height: 80vh;
