@@ -199,7 +199,7 @@ def G_Login():
                         )
                     )
                 else:
-                    login_session['user'] = user_data
+                    login_session['user'] = Get_User_Info(user_data)
             else:
                 Logout_Session()
 
@@ -299,7 +299,7 @@ def Edit_Category(main_cat_id):
     category = session.query(Category).filter_by(id=main_cat_id).one_or_none()
 
     if request.method == 'POST':
-        if category and login_session['user']['id'] == category.user_id:
+        if category and login_session['user']['user_id'] == category.user_id:
             form = request.form
 
             category.name = form['category_name']
@@ -331,7 +331,7 @@ def Delete_Category(main_cat_id):
     category = session.query(Category).filter_by(id=main_cat_id).one_or_none()
 
     if request.method == 'POST':
-        if category and login_session['user']['id'] == category.user_id:
+        if category and login_session['user']['user_id'] == category.user_id:
             session.delete(category)
             session.commit()
         else:
@@ -362,7 +362,7 @@ def Edit_Sub_Category(main_cat_id, sub_cat_id):
 
     if request.method == 'POST':
         if (sub_category and 
-            login_session['user']['id'] == sub_category.user_id):
+            login_session['user']['user_id'] == sub_category.user_id):
             form = request.form
 
             sub_category.name = form['category_name']
@@ -406,7 +406,7 @@ def Delete_Sub_Category(main_cat_id, sub_cat_id):
 
     if request.method == 'POST':
         if (sub_category and 
-            login_session['user']['id'] == sub_category.user_id):
+            login_session['user']['user_id'] == sub_category.user_id):
             
             session.query(Item).filter_by(sub_cat_id=sub_cat_id).delete()
 
@@ -414,7 +414,7 @@ def Delete_Sub_Category(main_cat_id, sub_cat_id):
 
             session.commit()
         else:
-            flash("You don't have the right access to delet %s" %
+            flash("You don't have the right access to delete %s" %
                   (sub_category.name))
 
         return redirect(url_for('Show_Category', main_cat_id=main_cat_id))
@@ -487,7 +487,7 @@ def Edit_Item(item_id):
     item = session.query(Item).filter_by(id=item_id).one_or_none()
 
     if request.method == 'POST':
-        if item and login_session['user']['id'] == item.user_id:
+        if item and login_session['user']['user_id'] == item.user_id:
             form = request.form
 
             # Get the category names and IDs based on 
@@ -537,7 +537,7 @@ def Delete_Item(item_id):
     item = session.query(Item).filter_by(id=item_id).one_or_none()
 
     if request.method == 'POST':
-        if item and login_session['user']['id'] == item.user_id:
+        if item and login_session['user']['user_id'] == item.user_id:
             session.delete(item)
             session.commit()
         else:
