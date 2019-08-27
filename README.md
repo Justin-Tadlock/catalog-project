@@ -112,10 +112,10 @@ Some examples of API calls are as follows:
 * /api/subCategory/#
 * /api/item/#
 * /api/all/users
-** **NOTE: Requires authentication**
+* * **NOTE: Requires authentication**
 
 **NOTES**:
-* # is the id of the item you want to view
+* ```#``` is the id of the item you want to view
 
 
 ## Built With
