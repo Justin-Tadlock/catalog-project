@@ -263,6 +263,13 @@ def Show_Category(main_cat_id):
 
 @app.route('/addCategory', methods=['GET', 'POST'])
 def Add_Category():
+    if not Is_Authenticated():
+        flash('You have to log in to be able to do that!')
+
+        return redirect(
+            url_for('Index')
+        )
+    
     if request.method == 'POST':
         form = request.form
 
@@ -282,6 +289,13 @@ def Add_Category():
 
 @app.route('/editCategory/<int:main_cat_id>', methods=['GET', 'POST'])
 def Edit_Category(main_cat_id):
+    if not Is_Authenticated():
+        flash('You have to log in to be able to do that!')
+
+        return redirect(
+            url_for('Index')
+        )
+
     category = session.query(Category).filter_by(id=main_cat_id).one_or_none()
 
     if request.method == 'POST':
@@ -307,6 +321,13 @@ def Edit_Category(main_cat_id):
 
 @app.route('/deleteCategory/<int:main_cat_id>', methods=['GET', 'POST'])
 def Delete_Category(main_cat_id):
+    if not Is_Authenticated():
+        flash('You have to log in to be able to do that!')
+
+        return redirect(
+            url_for('Index')
+        )
+
     category = session.query(Category).filter_by(id=main_cat_id).one_or_none()
 
     if request.method == 'POST':
@@ -329,6 +350,13 @@ def Delete_Category(main_cat_id):
 @app.route('/editSubCategory/<int:main_cat_id>/<int:sub_cat_id>', 
            methods=['GET', 'POST'])
 def Edit_Sub_Category(main_cat_id, sub_cat_id):
+    if not Is_Authenticated():
+        flash('You have to log in to be able to do that!')
+
+        return redirect(
+            url_for('Index')
+        )
+
     sub_category = session.query(Sub_Category).filter_by(
         id=sub_cat_id).one_or_none()
 
@@ -366,6 +394,13 @@ def Edit_Sub_Category(main_cat_id, sub_cat_id):
 @app.route('/deleteSubCategory/<int:main_cat_id>/<int:sub_cat_id>', 
            methods=['GET', 'POST'])
 def Delete_Sub_Category(main_cat_id, sub_cat_id):
+    if not Is_Authenticated():
+        flash('You have to log in to be able to do that!')
+
+        return redirect(
+            url_for('Index')
+        )
+
     sub_category = session.query(Sub_Category).filter_by(
         id=sub_cat_id).one_or_none()
 
@@ -396,6 +431,13 @@ def Delete_Sub_Category(main_cat_id, sub_cat_id):
 @app.route('/addItem/<int:main_id>', methods=['GET', 'POST'])
 @app.route('/addItem', methods=['GET', 'POST'])
 def Add_Item(main_id=None, sub_id=None):
+    if not Is_Authenticated():
+        flash('You have to log in to be able to do that!')
+
+        return redirect(
+            url_for('Index')
+        )
+
     if request.method == 'POST':
         form = request.form
 
@@ -435,6 +477,13 @@ def Add_Item(main_id=None, sub_id=None):
 
 @app.route('/editItem/<int:item_id>', methods=['GET', 'POST'])
 def Edit_Item(item_id):
+    if not Is_Authenticated():
+        flash('You have to log in to be able to do that!')
+
+        return redirect(
+            url_for('Index')
+        )
+
     item = session.query(Item).filter_by(id=item_id).one_or_none()
 
     if request.method == 'POST':
@@ -478,6 +527,13 @@ def Edit_Item(item_id):
 
 @app.route('/deleteItem/<int:item_id>', methods=['GET', 'POST'])
 def Delete_Item(item_id):
+    if not Is_Authenticated():
+        flash('You have to log in to be able to do that!')
+
+        return redirect(
+            url_for('Index')
+        )
+
     item = session.query(Item).filter_by(id=item_id).one_or_none()
 
     if request.method == 'POST':
@@ -567,18 +623,20 @@ def API_Item(item_id):
 
 @app.route('/api/all/users')
 def API_All_Users():
-    if Is_Authenticated():
-        users = session.query(User).all()
+    if not Is_Authenticated():
+        flash('You have to log in to be able to do that!')
 
-        return jsonify(
-            User=[
-                user.serialize for user in users
-            ]
+        return redirect(
+            url_for('Index')
         )
-        
-    flash('You are do not have the right access to see this information.')
 
-    return redirect(url_for('Index'))
+    users = session.query(User).all()
+
+    return jsonify(
+        User=[
+            user.serialize for user in users
+        ]
+    )
 
 
 if __name__ == "__main__":
