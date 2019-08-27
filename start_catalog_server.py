@@ -106,7 +106,7 @@ def Get_Category_IDs(form):
         if sub_category == []:
             session.add(
                 Sub_Category(
-                    name=item_sub_category, 
+                    name=item_sub_category,
                     cat_id=cat_id,
                     user_id=login_session['user']['user_id']
                 )
@@ -119,7 +119,7 @@ def Get_Category_IDs(form):
     sub_cat_id = session.query(
         Sub_Category
     ).filter_by(
-        name=item_sub_category, 
+        name=item_sub_category,
         cat_id=cat_id
     ).one().id
 
@@ -147,7 +147,7 @@ def Logout_Session():
 def Get_User_Info(user_info):
     # Function to check if a user is within the db
     # If the user is not, then we attempt to add the user.
-    # If the add is successful, we then grab the user data from the db 
+    # If the add is successful, we then grab the user data from the db
     # and return it.
     Log('Enter: Get_User_Info')
 
@@ -253,7 +253,7 @@ def G_Login():
                         )
                     )
                 else:
-                    # Attempt was successful, assign the user data to the 
+                    # Attempt was successful, assign the user data to the
                     # login_session
                     login_session['user'] = Get_User_Info(user_data)
             else:
@@ -346,7 +346,7 @@ def Add_Category():
         return redirect(
             url_for('Index')
         )
-    
+
     # Check for posts to add a category
     if request.method == 'POST':
         form = request.form
@@ -385,8 +385,10 @@ def Edit_Category(main_cat_id):
 
     # Check for post requests to edit the category
     if request.method == 'POST':
-        if (category and 
-            login_session['user']['user_id'] == category.user_id):
+        if (
+            category and
+            login_session['user']['user_id'] == category.user_id
+        ):
 
             form = request.form
 
@@ -426,8 +428,10 @@ def Delete_Category(main_cat_id):
 
     # Check for post requests to delete the category
     if request.method == 'POST':
-        if (category and 
-            login_session['user']['user_id'] == category.user_id):
+        if (
+            category and
+            login_session['user']['user_id'] == category.user_id
+        ):
 
             session.delete(category)
             session.commit()
@@ -445,7 +449,7 @@ def Delete_Category(main_cat_id):
     )
 
 
-@app.route('/editSubCategory/<int:main_cat_id>/<int:sub_cat_id>', 
+@app.route('/editSubCategory/<int:main_cat_id>/<int:sub_cat_id>',
            methods=['GET', 'POST'])
 def Edit_Sub_Category(main_cat_id, sub_cat_id):
     # Make sure user is logged in
@@ -464,8 +468,10 @@ def Edit_Sub_Category(main_cat_id, sub_cat_id):
 
     # Check for post requests to edit the sub category
     if request.method == 'POST':
-        if (sub_category and 
-            login_session['user']['user_id'] == sub_category.user_id):
+        if (
+            sub_category and
+            login_session['user']['user_id'] == sub_category.user_id
+        ):
 
             form = request.form
 
@@ -501,7 +507,7 @@ def Edit_Sub_Category(main_cat_id, sub_cat_id):
     )
 
 
-@app.route('/deleteSubCategory/<int:main_cat_id>/<int:sub_cat_id>', 
+@app.route('/deleteSubCategory/<int:main_cat_id>/<int:sub_cat_id>',
            methods=['GET', 'POST'])
 def Delete_Sub_Category(main_cat_id, sub_cat_id):
     # Make sure user is logged in
@@ -520,9 +526,11 @@ def Delete_Sub_Category(main_cat_id, sub_cat_id):
 
     # Check for post requests to delete the sub category
     if request.method == 'POST':
-        if (sub_category and 
-            login_session['user']['user_id'] == sub_category.user_id):
-            
+        if (
+            sub_category and
+            login_session['user']['user_id'] == sub_category.user_id
+        ):
+
             # Delete all items associated with the sub category
             session.query(
                 Item
@@ -544,7 +552,7 @@ def Delete_Sub_Category(main_cat_id, sub_cat_id):
 
         return redirect(
             url_for(
-                'Show_Category', 
+                'Show_Category',
                 main_cat_id=main_cat_id
             )
         )
@@ -594,7 +602,7 @@ def Add_Item(main_id=None, sub_id=None):
 
         return redirect(
             url_for(
-                'Show_Category', 
+                'Show_Category',
                 main_cat_id=cat_data['cat_id']
             )
         )
@@ -628,7 +636,7 @@ def Edit_Item(item_id):
         if item and login_session['user']['user_id'] == item.user_id:
             form = request.form
 
-            # Get the category names and IDs based on 
+            # Get the category names and IDs based on
             # selected fields in the form.
             cat_data = Get_Category_IDs(form)
 
@@ -649,7 +657,7 @@ def Edit_Item(item_id):
 
         return redirect(
             url_for(
-                'Show_Category', 
+                'Show_Category',
                 main_cat_id=item.cat_id
             )
         )
@@ -686,7 +694,7 @@ def Delete_Item(item_id):
 
         return redirect(
             url_for(
-                'Show_Category', 
+                'Show_Category',
                 main_cat_id=item.cat_id
             )
         )
