@@ -101,6 +101,22 @@ https://localhost:5000
 
 Now you will be able to browse around the application project and utilize all the CRUD functionality once you have authenticated through Google Sign-In.
 
+#### The application also has API endpoints
+You can make API calls to the application to view the data in JSON format.
+
+Some examples of API calls are as follows:
+* /api/all/categories
+* /api/all/subCategories
+* /api/all/items
+* /api/category/#
+* /api/subCategory/#
+* /api/item/#
+* /api/all/users
+** **NOTE: Requires authentication**
+
+**NOTES**:
+* # is the id of the item you want to view
+
 
 ## Built With
 
