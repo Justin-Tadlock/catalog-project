@@ -30,6 +30,7 @@ app = Flask(__name__)
 
 @app.context_processor
 def Update_Side_Nav():
+    # Function to update template variables
     return dict(client_id=gAuth.CLIENT_ID,
                 categories=session.query(Category).all(),
                 state=Generate_State_Token(),
@@ -37,6 +38,7 @@ def Update_Side_Nav():
 
 
 def Log(msg, err=False):
+    # Function for ease of debugging
     if not err and app.debug:
         print('INFO: %s' % (msg))
     else:
@@ -44,6 +46,7 @@ def Log(msg, err=False):
 
 
 def Generate_State_Token():
+    # Function to generate a state token to help prevent CSRF attacks
     state = ''.join(
         random.choice(
             string.ascii_uppercase + string.digits
@@ -56,38 +59,69 @@ def Generate_State_Token():
 
 
 def Get_Category_IDs(form):
+    # Function used to determine if a category and/or sub categories
+    # need to be added to the db, then it assigns the category names
+    # to strings so that they can be used when adding/editing items.
+
     # Get the item category string
     if form['item_category'] == 'Other':
         item_category = form['item_category_other']
 
-        # Determine if we need to add the category to the db
-        category = session.query(Category).filter_by(name=item_category).all()
+        # Add the category to the db if it doesn't currently exist
+        category = session.query(
+            Category
+        ).filter_by(
+            name=item_category
+        ).all()
         if category == []:
-            session.add(Category(name=item_category))
+            session.add(
+                Category(
+                    name=item_category,
+                    user_id=login_session['user']['user_id']
+                )
+            )
             session.commit()
 
     else:
         item_category = form['item_category']
 
     # Get the cat_id of the category object from the db
-    cat_id = session.query(Category).filter_by(name=item_category).one().id
+    cat_id = session.query(
+        Category
+    ).filter_by(
+        name=item_category
+    ).one().id
 
     # Get the item sub category string
     if form['item_sub_category'] == 'Other':
         item_sub_category = form['item_sub_category_other']
 
-        # Determine if we need to add the category to the db
-        sub_category = session.query(Sub_Category).filter_by(
-            name=item_sub_category).all()
+        # Add the category to the db if it doesn't currently exist
+        sub_category = session.query(
+            Sub_Category
+        ).filter_by(
+            name=item_sub_category
+        ).all()
+
         if sub_category == []:
-            session.add(Sub_Category(name=item_sub_category, cat_id=cat_id))
+            session.add(
+                Sub_Category(
+                    name=item_sub_category, 
+                    cat_id=cat_id,
+                    user_id=login_session['user']['user_id']
+                )
+            )
             session.commit()
     else:
         item_sub_category = form['item_sub_category']
 
     # Get the sub_cat_id of the category object from the db
-    sub_cat_id = session.query(Sub_Category).filter_by(
-        name=item_sub_category, cat_id=cat_id).one().id
+    sub_cat_id = session.query(
+        Sub_Category
+    ).filter_by(
+        name=item_sub_category, 
+        cat_id=cat_id
+    ).one().id
 
     return {
         'cat_id': cat_id,
@@ -98,10 +132,12 @@ def Get_Category_IDs(form):
 
 
 def Is_Authenticated():
+    # Function to check is a user is logged in
     return ('user' in login_session)
 
 
 def Logout_Session():
+    # Function to remove user and state tokens from the login_session
     if Is_Authenticated():
         print("Logging out the user")
         login_session.pop('user', None)
@@ -109,13 +145,19 @@ def Logout_Session():
 
 
 def Get_User_Info(user_info):
+    # Function to check if a user is within the db
+    # If the user is not, then we attempt to add the user.
+    # If the add is successful, we then grab the user data from the db 
+    # and return it.
     Log('Enter: Get_User_Info')
 
+    # Attempt to grab the user data from the db
     user = session.query(User).filter_by(
         name=user_info.get('name'),
         email=user_info.get('email')
     ).one_or_none()
 
+    # Return data if successful
     if user is not None:
         Log('   Finding user %s... Found!' % (user.email))
 
@@ -128,6 +170,8 @@ def Get_User_Info(user_info):
 
         return ret_info
     else:
+        # Attempt to add the user to the db and return that data
+        # if the user does not exist.
         Log('   Finding user %s... Not found! Adding user to db...' % (
             user_info.get('email')
         ))
@@ -136,6 +180,8 @@ def Get_User_Info(user_info):
 
 
 def Add_User(user_info):
+    # Function for attempting to add the user data to the db.
+    # Will return null if the attempt is unsuccessful
     Log('Enter: Add_User')
 
     try:
@@ -157,6 +203,8 @@ def Add_User(user_info):
 
 @app.route('/authenticated')
 def Authenticated():
+    # Function used to respond to requests to see if the user is logged in.
+    # This is intended for requests through js.
     if Is_Authenticated():
         return make_response(
             jsonify(
@@ -177,21 +225,27 @@ def Authenticated():
 
 @app.route('/gconnect', methods=['POST'])
 def G_Login():
+    # Function for authenticating using Google Sign-in
     print('Enter G_Login()')
 
+    # Check for state tokens to match for preventing CSRF attacks.
     if 'state' in request.form:
         if request.form['state'] != login_session['state']:
             return redirect(url_for('Index'))
 
+        # Check if the user is already logged in.
         if not Is_Authenticated():
             print('Attempt to log in to Google...')
             user_json = gAuth.Google_Callback()
 
+            # Check for login verified data from Google
             if user_json:
                 user_data = json.loads(user_json)
 
-                # If we don't have the user in our db, add them.
+                # Attempt to get the user data from the db
                 if Get_User_Info(user_data) is None:
+                    # The attempt to get/add the user from/to the db failed.
+                    # Send a server error response
                     return make_response(
                         jsonify(
                             message="Could not log the user in",
@@ -199,8 +253,13 @@ def G_Login():
                         )
                     )
                 else:
+                    # Attempt was successful, assign the user data to the 
+                    # login_session
                     login_session['user'] = Get_User_Info(user_data)
             else:
+                # User information was not verified by Google,
+                # clear session variables to make sure this individual
+                # does not receive accidental authentication rights.
                 Logout_Session()
 
             return make_response(jsonify(
@@ -222,6 +281,7 @@ def G_Login():
 
 @app.route('/logout', methods=['POST'])
 def Logout():
+    # Function used to clear all session data to log the user out
     Logout_Session()
 
     return make_response(
@@ -235,6 +295,7 @@ def Logout():
 
 @app.route('/')
 def Index():
+    # Get the 10 newest items to show in the main page
     items = session.query(Item).order_by(Item.id.desc()).limit(10).all()
 
     return render_template(
@@ -246,11 +307,26 @@ def Index():
 
 @app.route('/show/<int:main_cat_id>')
 def Show_Category(main_cat_id):
-    main_category = session.query(Category).filter_by(
-        id=main_cat_id).one_or_none()
+    # Get the category that will be shown
+    main_category = session.query(
+        Category
+    ).filter_by(
+        id=main_cat_id
+    ).one_or_none()
+
+    # Get the sub categories associated with the category
     sub_categories = session.query(
-        Sub_Category).filter_by(cat_id=main_cat_id).all()
-    items = session.query(Item).filter_by(cat_id=main_cat_id).all()
+        Sub_Category
+    ).filter_by(
+        cat_id=main_cat_id
+    ).all()
+
+    # Get the items associated with the category
+    items = session.query(
+        Item
+    ).filter_by(
+        cat_id=main_cat_id
+    ).all()
 
     return render_template(
         'show-category.html',
@@ -263,6 +339,7 @@ def Show_Category(main_cat_id):
 
 @app.route('/addCategory', methods=['GET', 'POST'])
 def Add_Category():
+    # Make sure user is logged in
     if not Is_Authenticated():
         flash('You have to log in to be able to do that!')
 
@@ -270,17 +347,20 @@ def Add_Category():
             url_for('Index')
         )
     
+    # Check for posts to add a category
     if request.method == 'POST':
         form = request.form
 
-        new_cat = Category(name=form['category_name'])
+        new_cat = Category(
+            name=form['category_name'],
+            user_id=login_session['user']['user_id']
+        )
         session.add(new_cat)
         session.commit()
 
-        Update_Side_Nav()
-
         return redirect(url_for('Index'))
 
+    # Render the add category form for GET requests
     return render_template(
         'add-category.html',
         title="Item Catalog",
@@ -289,6 +369,7 @@ def Add_Category():
 
 @app.route('/editCategory/<int:main_cat_id>', methods=['GET', 'POST'])
 def Edit_Category(main_cat_id):
+    # Make sure user is logged in
     if not Is_Authenticated():
         flash('You have to log in to be able to do that!')
 
@@ -296,10 +377,17 @@ def Edit_Category(main_cat_id):
             url_for('Index')
         )
 
-    category = session.query(Category).filter_by(id=main_cat_id).one_or_none()
+    category = session.query(
+        Category
+    ).filter_by(
+        id=main_cat_id
+    ).one_or_none()
 
+    # Check for post requests to edit the category
     if request.method == 'POST':
-        if category and login_session['user']['user_id'] == category.user_id:
+        if (category and 
+            login_session['user']['user_id'] == category.user_id):
+
             form = request.form
 
             category.name = form['category_name']
@@ -312,6 +400,7 @@ def Edit_Category(main_cat_id):
 
         return redirect(url_for('Index'))
 
+    # Render the edit category form for GET requests
     return render_template(
         'edit-category.html',
         title="Item Catalog",
@@ -321,6 +410,7 @@ def Edit_Category(main_cat_id):
 
 @app.route('/deleteCategory/<int:main_cat_id>', methods=['GET', 'POST'])
 def Delete_Category(main_cat_id):
+    # Make sure user is logged in
     if not Is_Authenticated():
         flash('You have to log in to be able to do that!')
 
@@ -328,10 +418,17 @@ def Delete_Category(main_cat_id):
             url_for('Index')
         )
 
-    category = session.query(Category).filter_by(id=main_cat_id).one_or_none()
+    category = session.query(
+        Category
+    ).filter_by(
+        id=main_cat_id
+    ).one_or_none()
 
+    # Check for post requests to delete the category
     if request.method == 'POST':
-        if category and login_session['user']['user_id'] == category.user_id:
+        if (category and 
+            login_session['user']['user_id'] == category.user_id):
+
             session.delete(category)
             session.commit()
         else:
@@ -340,6 +437,7 @@ def Delete_Category(main_cat_id):
 
         return redirect(url_for('Index'))
 
+    # Render the delete form for GET requests
     return render_template(
         'delete-category.html',
         title="Item Catalog",
@@ -350,6 +448,7 @@ def Delete_Category(main_cat_id):
 @app.route('/editSubCategory/<int:main_cat_id>/<int:sub_cat_id>', 
            methods=['GET', 'POST'])
 def Edit_Sub_Category(main_cat_id, sub_cat_id):
+    # Make sure user is logged in
     if not Is_Authenticated():
         flash('You have to log in to be able to do that!')
 
@@ -357,12 +456,17 @@ def Edit_Sub_Category(main_cat_id, sub_cat_id):
             url_for('Index')
         )
 
-    sub_category = session.query(Sub_Category).filter_by(
-        id=sub_cat_id).one_or_none()
+    sub_category = session.query(
+        Sub_Category
+    ).filter_by(
+        id=sub_cat_id
+    ).one_or_none()
 
+    # Check for post requests to edit the sub category
     if request.method == 'POST':
         if (sub_category and 
             login_session['user']['user_id'] == sub_category.user_id):
+
             form = request.form
 
             sub_category.name = form['category_name']
@@ -370,8 +474,13 @@ def Edit_Sub_Category(main_cat_id, sub_cat_id):
             session.add(sub_category)
             session.commit()
 
-            items = session.query(Item).filter_by(
-                sub_cat_id=sub_category.id).all()
+            # Update all associated items to the sub category
+            items = session.query(
+                Item
+            ).filter_by(
+                sub_cat_id=sub_category.id
+            ).all()
+
             for item in items:
                 item.sub_category = form['category_name']
 
@@ -383,6 +492,7 @@ def Edit_Sub_Category(main_cat_id, sub_cat_id):
 
         return redirect(url_for('Show_Category', main_cat_id=main_cat_id))
 
+    # Render the edit sub category form for GET requests
     return render_template(
         'edit-category.html',
         title="Item Catalog",
@@ -394,6 +504,7 @@ def Edit_Sub_Category(main_cat_id, sub_cat_id):
 @app.route('/deleteSubCategory/<int:main_cat_id>/<int:sub_cat_id>', 
            methods=['GET', 'POST'])
 def Delete_Sub_Category(main_cat_id, sub_cat_id):
+    # Make sure user is logged in
     if not Is_Authenticated():
         flash('You have to log in to be able to do that!')
 
@@ -401,24 +512,44 @@ def Delete_Sub_Category(main_cat_id, sub_cat_id):
             url_for('Index')
         )
 
-    sub_category = session.query(Sub_Category).filter_by(
-        id=sub_cat_id).one_or_none()
+    sub_category = session.query(
+        Sub_Category
+    ).filter_by(
+        id=sub_cat_id
+    ).one_or_none()
 
+    # Check for post requests to delete the sub category
     if request.method == 'POST':
         if (sub_category and 
             login_session['user']['user_id'] == sub_category.user_id):
             
-            session.query(Item).filter_by(sub_cat_id=sub_cat_id).delete()
+            # Delete all items associated with the sub category
+            session.query(
+                Item
+            ).filter_by(
+                sub_cat_id=sub_cat_id
+            ).delete()
 
-            session.query(Sub_Category).filter_by(id=sub_cat_id).delete()
+            # Safe to delete the sub category
+            session.query(
+                Sub_Category
+            ).filter_by(
+                id=sub_cat_id
+            ).delete()
 
             session.commit()
         else:
             flash("You don't have the right access to delete %s" %
                   (sub_category.name))
 
-        return redirect(url_for('Show_Category', main_cat_id=main_cat_id))
+        return redirect(
+            url_for(
+                'Show_Category', 
+                main_cat_id=main_cat_id
+            )
+        )
 
+    # Render the delete category form for GET requests
     return render_template(
         'delete-category.html',
         title="Item Catalog",
@@ -431,6 +562,7 @@ def Delete_Sub_Category(main_cat_id, sub_cat_id):
 @app.route('/addItem/<int:main_id>', methods=['GET', 'POST'])
 @app.route('/addItem', methods=['GET', 'POST'])
 def Add_Item(main_id=None, sub_id=None):
+    # Make sure user is logged in
     if not Is_Authenticated():
         flash('You have to log in to be able to do that!')
 
@@ -438,6 +570,7 @@ def Add_Item(main_id=None, sub_id=None):
             url_for('Index')
         )
 
+    # Check for post requests to add an item
     if request.method == 'POST':
         form = request.form
 
@@ -453,7 +586,8 @@ def Add_Item(main_id=None, sub_id=None):
                 sub_category=cat_data['sub_cat_name'],
                 description=form['item_description'],
                 cat_id=cat_data['cat_id'],
-                sub_cat_id=cat_data['sub_cat_id']
+                sub_cat_id=cat_data['sub_cat_id'],
+                user_id=login_session['user']['user_id']
             )
         )
         session.commit()
@@ -465,8 +599,10 @@ def Add_Item(main_id=None, sub_id=None):
             )
         )
 
+    # Get the sub categories that will be populated in the add item form
     sub_categories = session.query(Sub_Category).all()
 
+    # Render the add item form for GET requests
     return render_template(
         'add-item.html',
         main_id=main_id,
@@ -477,6 +613,7 @@ def Add_Item(main_id=None, sub_id=None):
 
 @app.route('/editItem/<int:item_id>', methods=['GET', 'POST'])
 def Edit_Item(item_id):
+    # Make sure user is logged in
     if not Is_Authenticated():
         flash('You have to log in to be able to do that!')
 
@@ -486,6 +623,7 @@ def Edit_Item(item_id):
 
     item = session.query(Item).filter_by(id=item_id).one_or_none()
 
+    # Check for post requests to edit the item
     if request.method == 'POST':
         if item and login_session['user']['user_id'] == item.user_id:
             form = request.form
@@ -503,7 +641,7 @@ def Edit_Item(item_id):
             item.cat_id = cat_data['cat_id']
             item.sub_cat_id = cat_data['sub_cat_id']
 
-            # Update the db
+            # Update the item in the db
             session.add(item)
             session.commit()
         else:
@@ -515,9 +653,10 @@ def Edit_Item(item_id):
                 main_cat_id=item.cat_id
             )
         )
-
+    # Get the sub categories that will be populated in the edit item form
     sub_categories = session.query(Sub_Category).all()
 
+    # Render the edit item form for GET requests
     return render_template(
         'edit-item.html',
         item=item,
@@ -527,6 +666,7 @@ def Edit_Item(item_id):
 
 @app.route('/deleteItem/<int:item_id>', methods=['GET', 'POST'])
 def Delete_Item(item_id):
+    # Make sure user is logged in
     if not Is_Authenticated():
         flash('You have to log in to be able to do that!')
 
@@ -536,6 +676,7 @@ def Delete_Item(item_id):
 
     item = session.query(Item).filter_by(id=item_id).one_or_none()
 
+    # Check for post requests to delete the item
     if request.method == 'POST':
         if item and login_session['user']['user_id'] == item.user_id:
             session.delete(item)
@@ -550,6 +691,7 @@ def Delete_Item(item_id):
             )
         )
 
+    # Render the delete item form for GET requests
     return render_template(
         'delete-item.html',
         item=item
@@ -623,6 +765,7 @@ def API_Item(item_id):
 
 @app.route('/api/all/users')
 def API_All_Users():
+    # Make sure user is logged in
     if not Is_Authenticated():
         flash('You have to log in to be able to do that!')
 
