@@ -7,8 +7,10 @@
   <h3 class="section-divider">
     {{ sub_cat.name }}
     <div>
+      {% if authenticated %}
       <a href="{{ url_for('Edit_Sub_Category', main_cat_id=sub_cat.cat_id, sub_cat_id=sub_cat.id) }}"><i class="material-icons">edit</i></a>
       <a href="{{ url_for('Delete_Sub_Category', main_cat_id=sub_cat.cat_id, sub_cat_id=sub_cat.id) }}"><i class="material-icons">delete</i></a>
+      {% endif %}
     </div>
   </h3>
 
@@ -31,22 +33,26 @@
         </div>
       </a>
       <div class="item-header">
+        {% if authenticated %}
         <a href="{{ url_for('Edit_Item', item_id=item.id) }}"><i class="material-icons">edit</i></a>
         <a href="{{ url_for('Delete_Item', item_id=item.id) }}"><i class="material-icons">delete</i></a>
+        {% endif %}
       </div>
     </div>
     {% endif %}
     {% endfor %}
+    {% if authenticated %}
     <div class="category-item-add">
       <a href="{{ url_for('Add_Item', main_id=sub_cat.cat_id, sub_id=sub_cat.id) }}">
         <i class="material-icons">add</i>
       </a>
     </div>
+    {% endif %}
   </div>
 </div>
 {% endfor %}
 {% endif %}
-
+{% if authenticated %}
 <div class="sub-category">
   <h3 class="section-divider">Add new items</h3>
   <div class="category-item-add">
@@ -55,4 +61,5 @@
     </a>
   </div>
 </div>
+{% endif %}
 {% endblock%}

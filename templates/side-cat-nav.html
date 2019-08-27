@@ -6,13 +6,16 @@
         <div class="category-link">
         <a href="{{ url_for('Show_Category', main_cat_id=category.id) }}">{{category.name}}</a>
         <div class="cat-link-mods">
+            {% if authenticated %}
             <a href="{{ url_for('Edit_Category', main_cat_id=category.id) }}"><i class="material-icons">edit</i></a>
             <a href="{{ url_for('Delete_Category', main_cat_id=category.id) }}"><i class="material-icons">delete</i></a>
+            {% endif %}
         </div>
         </li>  
     </li>
     {% endfor %}
     {% endif %}
+    {% if authenticated %}
     <li>
     <div class="category-item-add">
         <a href="{{ url_for('Add_Category') }}">
@@ -20,4 +23,5 @@
         </a>
     </div>
     </li>
+    {% endif %}
 </ul>

@@ -22,14 +22,17 @@
           </div>
         </a>
         <div class="item-header">
+          {% if authenticated %}
           <a href="{{ url_for('Edit_Item', item_id=item.id) }}"><i class="material-icons">edit</i></a>
           <a href="{{ url_for('Delete_Item', item_id=item.id) }}"><i class="material-icons">delete</i></a>
+          {% endif %}
         </div>
       </div>
       {% endfor %}
     </div>
   </div>
   {% endif %}
+  {% if authenticated %}
   <div class="sub-category">
     <div class="category-item-add">
       <a href="{{ url_for('Add_Item') }}">
@@ -37,5 +40,6 @@
       </a>
     </div>
   </div>
+  {% endif %}
 </div>
 {% endblock%}

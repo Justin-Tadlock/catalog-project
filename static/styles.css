@@ -21,8 +21,6 @@
 }
 
 body {
-    overflow:hidden;
-
     background: #009688;
 }
 
@@ -173,6 +171,10 @@ hr {
 .sign-in {
     display: block;
 }
+/* change the font color of the google sign in button */
+.abcRioButtonContents span {
+    color: #FFFFFF;
+}
 .sign-out {
     display: none;
 }
@@ -180,14 +182,17 @@ hr {
 
 .content {
     margin: auto;
-    margin-top: 3rem;
+    margin-top: 6rem;
 
     width: 90%;
-    height: 90vh;
+    height: 80vh;
 
     display: grid;
     grid-template-columns: 2fr 10fr;
     grid-template-rows: 6fr 1fr;
+
+    overflow: scroll;
+    overflow-x: hidden;
 }
 
 .left-panel,
@@ -280,9 +285,6 @@ hr {
     
     justify-content: left;
     align-items: center;
-
-    overflow: scroll;
-    overflow-x: hidden;
 }
 .right-panel> a {
     margin-left: 10rem;

@@ -34,11 +34,11 @@ function checkAuthenticated() {
 
 function showSignInBtn(setVisible) {
     if(setVisible) {
-        $('.google-auth, .facebook-auth').css('display', 'block');
+        $('.sign-in').css('display', 'block');
         $('.sign-out').css('display', 'none');
     }
     else {
-        $('.google-auth, .facebook-auth').css('display', 'none');
+        $('.sign-in').css('display', 'none');
         $('.sign-out').css('display', 'block');
     }
 }
@@ -62,10 +62,10 @@ function logout() {
     xhr.setRequestHeader('content-type', 'application/x-www-form-urlencoded');
     xhr.onload = function() {
         printLog("Logging out the user");
-        $('.result').html("Successfully logged out! Redirecting in 2 seconds...");
+        printLog("Successfully logged out! Redirecting in .5 seconds...");
         setTimeout(function() {
             window.location.href = '/';
-        }, 2000);
+        }, 500);
     }
     xhr.send('logout=true');
 }
@@ -90,10 +90,11 @@ function onSignIn(googleUser) {
 
         // If data is true, it means that the user is authenticated and needs to refresh page
         if (server_response.data) {
-            $('.result').html("Successfully logged in as " + profile.getName() + ". Redirecting in 4 seconds...");
+            printLog("Successfully logged in as " + profile.getName() + 
+                     ". Redirecting in .5 seconds...");
             setTimeout(function() {
-                window.location.href = "/";
-            }, 4000);
+                location.reload();
+            }, 500);
         }
     };
     xhr.send('idtoken=' + id_token + '&state=' + state);
