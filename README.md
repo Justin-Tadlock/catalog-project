@@ -120,3 +120,7 @@ Now you will be able to browse around the application project and utilize all th
 
 * [Udacity VM Setup](https://github.com/udacity/fullstack-nanodegree-vm) - for the initial setup of the Vagrant VM.
 * [HTTPS Certificates](https://blog.miguelgrinberg.com/post/running-your-flask-application-over-https)
+* [My Auth-Playground Repo](https://github.com/Justin-Tadlock/auth-playground)
+* [Integrating Google Sign-In](https://developers.google.com/identity/sign-in/web/sign-in)
+* [Color Palette](https://www.materialpalette.com/teal/blue)
+* Images and links are found from searching amazon and using their respective URIs for images
