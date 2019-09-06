@@ -592,6 +592,8 @@ def Add_Item(main_id=None, sub_id=None):
                 price=form['item_price'],
                 category=cat_data['cat_name'],
                 sub_category=cat_data['sub_cat_name'],
+                picture=cat_data['item_picture'],
+                link=cat_data['item_link'],
                 description=form['item_description'],
                 cat_id=cat_data['cat_id'],
                 sub_cat_id=cat_data['sub_cat_id'],
@@ -645,6 +647,8 @@ def Edit_Item(item_id):
             item.price = form['item_price']
             item.category = cat_data['cat_name']
             item.sub_category = cat_data['sub_cat_name']
+            item.picture = cat_data['item_picture']
+            item.link = cat_data['item_link']
             item.description = form['item_description']
             item.cat_id = cat_data['cat_id']
             item.sub_cat_id = cat_data['sub_cat_id']
