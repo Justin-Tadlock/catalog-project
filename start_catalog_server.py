@@ -144,13 +144,18 @@ def Logout_Session():
         login_session.pop('user', None)
         login_session.pop('state', None)
 
+def Get_Glb_Session():
+    global session
+
+    return session
+
 
 def Get_User_Info(user_info):
     # Function to check if a user is within the db
     # If the user is not, then we attempt to add the user.
     # If the add is successful, we then grab the user data from the db
     # and return it.
-    Log('Enter: Get_User_Info')
+    session = Get_Glb_Session()
 
     # Attempt to grab the user data from the db
     user = session.query(User).filter_by(
@@ -183,7 +188,7 @@ def Get_User_Info(user_info):
 def Add_User(user_info):
     # Function for attempting to add the user data to the db.
     # Will return null if the attempt is unsuccessful
-    Log('Enter: Add_User')
+    session = Get_Glb_Session()
 
     try:
         new_user = User(
@@ -296,6 +301,8 @@ def Logout():
 
 @app.route('/')
 def Index():
+    session = Get_Glb_Session()
+
     # Get the 10 newest items to show in the main page
     items = session.query(Item).order_by(Item.id.desc()).limit(10).all()
 
@@ -308,6 +315,8 @@ def Index():
 
 @app.route('/show/<int:main_cat_id>')
 def Show_Category(main_cat_id):
+    session = Get_Glb_Session()
+
     # Get the category that will be shown
     main_category = session.query(
         Category
@@ -340,6 +349,8 @@ def Show_Category(main_cat_id):
 
 @app.route('/addCategory', methods=['GET', 'POST'])
 def Add_Category():
+    session = Get_Glb_Session()
+
     # Make sure user is logged in
     if not Is_Authenticated():
         flash('You have to log in to be able to do that!')
@@ -370,6 +381,8 @@ def Add_Category():
 
 @app.route('/editCategory/<int:main_cat_id>', methods=['GET', 'POST'])
 def Edit_Category(main_cat_id):
+    session = Get_Glb_Session()
+
     # Make sure user is logged in
     if not Is_Authenticated():
         flash('You have to log in to be able to do that!')
@@ -413,6 +426,8 @@ def Edit_Category(main_cat_id):
 
 @app.route('/deleteCategory/<int:main_cat_id>', methods=['GET', 'POST'])
 def Delete_Category(main_cat_id):
+    session = Get_Glb_Session()
+
     # Make sure user is logged in
     if not Is_Authenticated():
         flash('You have to log in to be able to do that!')
@@ -453,6 +468,8 @@ def Delete_Category(main_cat_id):
 @app.route('/editSubCategory/<int:main_cat_id>/<int:sub_cat_id>',
            methods=['GET', 'POST'])
 def Edit_Sub_Category(main_cat_id, sub_cat_id):
+    session = Get_Glb_Session()
+    
     # Make sure user is logged in
     if not Is_Authenticated():
         flash('You have to log in to be able to do that!')
@@ -511,6 +528,8 @@ def Edit_Sub_Category(main_cat_id, sub_cat_id):
 @app.route('/deleteSubCategory/<int:main_cat_id>/<int:sub_cat_id>',
            methods=['GET', 'POST'])
 def Delete_Sub_Category(main_cat_id, sub_cat_id):
+    session = Get_Glb_Session()
+    
     # Make sure user is logged in
     if not Is_Authenticated():
         flash('You have to log in to be able to do that!')
@@ -571,6 +590,8 @@ def Delete_Sub_Category(main_cat_id, sub_cat_id):
 @app.route('/addItem/<int:main_id>', methods=['GET', 'POST'])
 @app.route('/addItem', methods=['GET', 'POST'])
 def Add_Item(main_id=None, sub_id=None):
+    session = Get_Glb_Session()
+    
     # Make sure user is logged in
     if not Is_Authenticated():
         flash('You have to log in to be able to do that!')
@@ -624,6 +645,8 @@ def Add_Item(main_id=None, sub_id=None):
 
 @app.route('/editItem/<int:item_id>', methods=['GET', 'POST'])
 def Edit_Item(item_id):
+    session = Get_Glb_Session()
+    
     # Make sure user is logged in
     if not Is_Authenticated():
         flash('You have to log in to be able to do that!')
@@ -679,6 +702,8 @@ def Edit_Item(item_id):
 
 @app.route('/deleteItem/<int:item_id>', methods=['GET', 'POST'])
 def Delete_Item(item_id):
+    session = Get_Glb_Session()
+    
     # Make sure user is logged in
     if not Is_Authenticated():
         flash('You have to log in to be able to do that!')
@@ -716,6 +741,8 @@ def Delete_Item(item_id):
 
 @app.route('/api/all/categories')
 def API_All_Categories():
+    session = Get_Glb_Session()
+    
     categories = session.query(Category).all()
 
     return jsonify(
@@ -727,6 +754,8 @@ def API_All_Categories():
 
 @app.route('/api/all/subCategories')
 def API_All_Sub_Categories():
+    session = Get_Glb_Session()
+    
     categories = session.query(Sub_Category).all()
 
     return jsonify(
@@ -738,6 +767,8 @@ def API_All_Sub_Categories():
 
 @app.route('/api/all/items')
 def API_All_Items():
+    session = Get_Glb_Session()
+    
     items = session.query(Item).all()
 
     return jsonify(
@@ -749,6 +780,8 @@ def API_All_Items():
 
 @app.route('/api/category/<int:main_cat_id>')
 def API_Category_Items(main_cat_id):
+    session = Get_Glb_Session()
+    
     items = session.query(Item).filter_by(cat_id=main_cat_id).all()
 
     return jsonify(
@@ -760,6 +793,8 @@ def API_Category_Items(main_cat_id):
 
 @app.route('/api/subCategory/<int:sub_cat_id>')
 def API_Sub_Category_Items(sub_cat_id):
+    session = Get_Glb_Session()
+    
     items = session.query(Item).filter_by(sub_cat_id=sub_cat_id).all()
 
     return jsonify(
@@ -771,6 +806,8 @@ def API_Sub_Category_Items(sub_cat_id):
 
 @app.route('/api/item/<int:item_id>')
 def API_Item(item_id):
+    session = Get_Glb_Session()
+    
     item = session.query(Item).filter_by(id=item_id).one_or_none()
 
     return jsonify(Item=item.serialize)
@@ -778,6 +815,8 @@ def API_Item(item_id):
 
 @app.route('/api/all/users')
 def API_All_Users():
+    session = Get_Glb_Session()
+    
     # Make sure user is logged in
     if not Is_Authenticated():
         flash('You have to log in to be able to do that!')
@@ -821,6 +860,6 @@ if __name__ == "__main__":
     app.debug = True
     app.run(
         ssl_context=('cert.pem', 'key.pem'),
-        host="0.0.0.0",
+        host="127.0.0.1",
         port=5000
     )
