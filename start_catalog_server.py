@@ -6,6 +6,7 @@ import httplib2
 import requests
 import bleach
 import sys
+import platform
 
 from flask import (
     Flask,
@@ -793,23 +794,30 @@ def API_All_Users():
         ]
     )
 
+# Add the secret key for the app
+try:
+    app.secret_key = open('%ssecret_key.txt' % (
+        sys.path[0] if platform.system() != 'Windows' \
+            else '%s\\' % (sys.path[0])
+    ), 'r').read()
+except IOError as ioe:
+    print('Error: Please create a \'secret_key.txt\' '
+            'file within the app\'s directory')
+    print(ioe.pgerror)
+    print(ioe.diag.message_detail)
+    sys.exit(1)
 
-if __name__ == "__main__":
-    # Add the secret key for the app
-    try:
-        app.secret_key = open('secret_key.txt', 'r').read()
-    except IOError as ioe:
-        print('Error: Please create a \'secret_key.txt\' '
-              'file within the app\'s directory')
-        print(ioe.pgerror)
-        print(ioe.diag.message_detail)
-        sys.exit(1)
-
-    # Adding db functionality for CRUD operations
+# Adding db functionality for CRUD operations
+try:
     engine = create_engine('sqlite:///item_catalog.db?check_same_thread=False')
     DBsession = sessionmaker(bind=engine)
     session = DBsession()
+except Exception as e:
+    print('Error: Could not get a db session')
+    print(str(e))
+    sys.exit(1)
 
+if __name__ == "__main__":
     app.debug = True
     app.run(
         ssl_context=('cert.pem', 'key.pem'),
