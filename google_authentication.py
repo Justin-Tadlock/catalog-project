@@ -1,5 +1,6 @@
 import json
 import sys
+import platform
 
 from flask import (
     jsonify,
@@ -13,7 +14,11 @@ from google.auth.transport import requests
 
 # Get Secrets Data
 try:
-    SECRET_DATA = json.loads(open('client_secrets.json', 'r').read())['web']
+    SECRET_DATA = json.loads(
+        open('%sclient_secrets.json' % (
+            sys.path[0] if platform.system() != 'Windows' \
+                else '%s\\' % (sys.path[0])
+        ), 'r').read())['web']
     CLIENT_ID = SECRET_DATA['client_id']
     CLIENT_SECRET = SECRET_DATA['client_secret']
 
